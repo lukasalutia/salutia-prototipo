@@ -587,45 +587,43 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
       <div class="nb-grid">
         <div class="nbcard" onclick="openProfile('luka')">
           <div class="nb-cover nb-cover-l" style="overflow:hidden">
-            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none" preserveAspectRatio="xMidYMid meet">
-              <rect width="100" height="70" fill="#1349C5"/>
-              <!-- avatar bg oval -->
-              <ellipse cx="50" cy="42" rx="32" ry="34" fill="rgba(255,255,255,0.08)"/>
-              <!-- sweater golden -->
-              <path d="M8 80 L8 54 Q10 48 22 46 L34 52 Q42 56 50 56 Q58 56 66 52 L78 46 Q90 48 92 54 L92 80Z" fill="#F5B200"/>
-              <!-- sweater highlight strip -->
-              <rect x="10" y="50" width="9" height="24" rx="4.5" fill="rgba(255,255,255,0.22)"/>
-              <!-- collar left flap -->
-              <path d="M34 52 L41 55 L50 65 L44 52Z" fill="#EEF1FF"/>
-              <!-- collar right flap -->
-              <path d="M66 52 L59 55 L50 65 L56 52Z" fill="#EEF1FF"/>
-              <!-- collar center fold shadow -->
-              <path d="M44 52 L50 65 L56 52" stroke="#D8DCFF" stroke-width="0.6" fill="none"/>
-              <!-- neck -->
-              <rect x="43" y="41" width="14" height="14" rx="5" fill="#FDDCB5"/>
-              <!-- ears -->
-              <ellipse cx="35" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
-              <ellipse cx="65" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
-              <!-- head -->
-              <ellipse cx="50" cy="24" rx="14.5" ry="15" fill="#FDDCB5"/>
-              <!-- hair main mass -->
-              <path d="M36 24 Q35 10 50 9 Q65 10 65 23 Q63 13 50 13 Q37 13 36 24Z" fill="#282828"/>
-              <!-- hair top fill -->
-              <ellipse cx="50" cy="11" rx="14.5" ry="4.5" fill="#282828"/>
-              <!-- hair right sweep (goes lower on right side) -->
-              <path d="M63 14 Q68 17 67 24" stroke="#282828" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-              <!-- hair front-left tuft -->
-              <path d="M36 23 Q34 17 38 13 L37.5 19Z" fill="#282828"/>
-              <!-- eyebrows -->
-              <rect x="41.5" y="20" width="6.5" height="1.8" rx="0.9" fill="#282828"/>
-              <rect x="52" y="20" width="6.5" height="1.8" rx="0.9" fill="#282828"/>
-              <!-- eyes -->
-              <circle cx="44.5" cy="25.5" r="2.5" fill="#282828"/>
-              <circle cx="55.5" cy="25.5" r="2.5" fill="#282828"/>
-              <!-- nose dot -->
-              <circle cx="50" cy="30.5" r="1.3" fill="#DDA880"/>
-              <!-- mouth -->
-              <path d="M47 35 Q50 37 53 35" stroke="#C09070" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none">
+              <defs><clipPath id="cl-luka"><rect x="16" y="1" width="68" height="68" rx="14"/></clipPath></defs>
+              <rect x="16" y="1" width="68" height="68" rx="14" fill="white"/>
+              <g clip-path="url(#cl-luka)">
+                <rect x="16" y="1" width="68" height="68" fill="white"/>
+                <!-- sweater golden -->
+                <path d="M16 75 L16 58 Q18 52 28 50 L37 55 Q43 58 50 58 Q57 58 63 55 L72 50 Q82 52 84 58 L84 75Z" fill="#F5B200"/>
+                <rect x="18" y="54" width="7" height="18" rx="3.5" fill="rgba(255,255,255,0.25)"/>
+                <!-- collar -->
+                <path d="M37 55 L43 58 L50 67 L44 55Z" fill="#EEF1FF"/>
+                <path d="M63 55 L57 58 L50 67 L56 55Z" fill="#EEF1FF"/>
+                <path d="M44 55 L50 67 L56 55" stroke="#D8DCFF" stroke-width="0.7" fill="none"/>
+                <!-- neck -->
+                <rect x="43" y="44" width="14" height="14" rx="5" fill="#FDDCB5"/>
+                <!-- ears -->
+                <ellipse cx="33" cy="28" rx="3" ry="4" fill="#F0B888"/>
+                <ellipse cx="67" cy="28" rx="3" ry="4" fill="#F0B888"/>
+                <!-- head -->
+                <ellipse cx="50" cy="26" rx="17" ry="18" fill="#FDDCB5"/>
+                <!-- hair main blob -->
+                <path d="M33 26 Q33 9 50 8 Q67 9 67 25 Q64 13 50 13 Q36 13 33 26Z" fill="#282828"/>
+                <ellipse cx="50" cy="10" rx="17" ry="5" fill="#282828"/>
+                <!-- hair right sweep -->
+                <path d="M65 14 Q70 18 69 26" stroke="#282828" stroke-width="6" stroke-linecap="round" fill="none"/>
+                <!-- front-left tuft -->
+                <path d="M33 25 Q31 17 36 12 L35 20Z" fill="#282828"/>
+                <!-- eyebrows -->
+                <rect x="40" y="21" width="8" height="2" rx="1" fill="#282828"/>
+                <rect x="52" y="21" width="8" height="2" rx="1" fill="#282828"/>
+                <!-- eyes -->
+                <circle cx="44" cy="27.5" r="3" fill="#282828"/>
+                <circle cx="56" cy="27.5" r="3" fill="#282828"/>
+                <!-- nose -->
+                <circle cx="50" cy="34" r="1.5" fill="#DDA880"/>
+                <!-- mouth -->
+                <path d="M45.5 39 Q50 42 54.5 39" stroke="#C09070" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </g>
             </svg>
           </div>
           <div class="nb-name">Luka</div>
@@ -634,50 +632,47 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         </div>
         <div class="nbcard" onclick="openProfile('mauricio')">
           <div class="nb-cover nb-cover-m" style="position:relative;overflow:hidden">
-            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none" preserveAspectRatio="xMidYMid meet">
-              <rect width="100" height="70" fill="#0B35A8"/>
-              <!-- avatar bg oval -->
-              <ellipse cx="50" cy="42" rx="32" ry="34" fill="rgba(255,255,255,0.07)"/>
-              <!-- suit jacket navy -->
-              <path d="M8 80 L8 54 Q10 48 22 46 L34 52 Q42 56 50 56 Q58 56 66 52 L78 46 Q90 48 92 54 L92 80Z" fill="#1A2E72"/>
-              <!-- suit highlight strip -->
-              <rect x="10" y="50" width="9" height="24" rx="4.5" fill="rgba(255,255,255,0.12)"/>
-              <!-- collar left flap -->
-              <path d="M34 52 L41 55 L50 65 L44 52Z" fill="#EEF1FF"/>
-              <!-- collar right flap -->
-              <path d="M66 52 L59 55 L50 65 L56 52Z" fill="#EEF1FF"/>
-              <!-- collar center fold -->
-              <path d="M44 52 L50 65 L56 52" stroke="#D8DCFF" stroke-width="0.6" fill="none"/>
-              <!-- neck -->
-              <rect x="43" y="41" width="14" height="14" rx="5" fill="#FDDCB5"/>
-              <!-- ears -->
-              <ellipse cx="35" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
-              <ellipse cx="65" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
-              <!-- head -->
-              <ellipse cx="50" cy="24" rx="14.5" ry="15" fill="#FDDCB5"/>
-              <!-- hair gray — shorter, more conservative cut -->
-              <path d="M36 23 Q36 11 50 10 Q64 11 64 22 Q62 13 50 13 Q38 13 36 23Z" fill="#8A8A8A"/>
-              <!-- hair top fill -->
-              <ellipse cx="50" cy="11.5" rx="14" ry="4" fill="#8A8A8A"/>
-              <!-- hair right side -->
-              <path d="M62 14 Q66 16 65 23" stroke="#8A8A8A" stroke-width="5" stroke-linecap="round" fill="none"/>
-              <!-- hair front — no tuft, clean mature cut -->
-              <path d="M36 22 Q35 17 38 13 L37.5 18Z" fill="#8A8A8A"/>
-              <!-- gray highlight streaks -->
-              <path d="M40 12 Q46 10 52 11" stroke="#C0C0C0" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
-              <path d="M54 11 Q59 12 63 15" stroke="#C0C0C0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
-              <!-- eyebrows — thicker, more distinguished -->
-              <rect x="41" y="20" width="7" height="2" rx="1" fill="#505050"/>
-              <rect x="52" y="20" width="7" height="2" rx="1" fill="#505050"/>
-              <!-- eyes -->
-              <circle cx="44.5" cy="25.5" r="2.5" fill="#282828"/>
-              <circle cx="55.5" cy="25.5" r="2.5" fill="#282828"/>
-              <!-- nose dot -->
-              <circle cx="50" cy="30.5" r="1.3" fill="#DDA880"/>
-              <!-- mouth -->
-              <path d="M47 35 Q50 37 53 35" stroke="#C09070" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none">
+              <defs><clipPath id="cl-maur"><rect x="16" y="1" width="68" height="68" rx="14"/></clipPath></defs>
+              <rect x="16" y="1" width="68" height="68" rx="14" fill="white"/>
+              <g clip-path="url(#cl-maur)">
+                <rect x="16" y="1" width="68" height="68" fill="white"/>
+                <!-- suit jacket navy -->
+                <path d="M16 75 L16 58 Q18 52 28 50 L37 55 Q43 58 50 58 Q57 58 63 55 L72 50 Q82 52 84 58 L84 75Z" fill="#1A2E72"/>
+                <rect x="18" y="54" width="7" height="18" rx="3.5" fill="rgba(255,255,255,0.12)"/>
+                <!-- collar -->
+                <path d="M37 55 L43 58 L50 67 L44 55Z" fill="#EEF1FF"/>
+                <path d="M63 55 L57 58 L50 67 L56 55Z" fill="#EEF1FF"/>
+                <path d="M44 55 L50 67 L56 55" stroke="#D8DCFF" stroke-width="0.7" fill="none"/>
+                <!-- neck -->
+                <rect x="43" y="44" width="14" height="14" rx="5" fill="#FDDCB5"/>
+                <!-- ears -->
+                <ellipse cx="33" cy="28" rx="3" ry="4" fill="#F0B888"/>
+                <ellipse cx="67" cy="28" rx="3" ry="4" fill="#F0B888"/>
+                <!-- head -->
+                <ellipse cx="50" cy="26" rx="17" ry="18" fill="#FDDCB5"/>
+                <!-- hair gray, shorter conservative cut -->
+                <path d="M33 25 Q33 10 50 9 Q67 10 67 24 Q64 14 50 14 Q36 14 33 25Z" fill="#8A8A8A"/>
+                <ellipse cx="50" cy="11" rx="17" ry="5" fill="#8A8A8A"/>
+                <!-- right side hair, slightly shorter than Luka -->
+                <path d="M65 15 Q69 18 68 25" stroke="#8A8A8A" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+                <!-- clean front, no tuft -->
+                <path d="M33 24 Q32 18 36 13 L35 20Z" fill="#8A8A8A"/>
+                <!-- silver streaks -->
+                <path d="M38 12 Q46 9 54 11" stroke="#D0D0D0" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.7"/>
+                <path d="M55 11 Q61 13 65 16" stroke="#D0D0D0" stroke-width="1.4" stroke-linecap="round" fill="none" opacity="0.55"/>
+                <!-- eyebrows thicker -->
+                <rect x="40" y="21" width="8.5" height="2.2" rx="1.1" fill="#505050"/>
+                <rect x="51.5" y="21" width="8.5" height="2.2" rx="1.1" fill="#505050"/>
+                <!-- eyes -->
+                <circle cx="44" cy="27.5" r="3" fill="#282828"/>
+                <circle cx="56" cy="27.5" r="3" fill="#282828"/>
+                <!-- nose -->
+                <circle cx="50" cy="34" r="1.5" fill="#DDA880"/>
+                <!-- mouth -->
+                <path d="M45.5 39 Q50 42 54.5 39" stroke="#C09070" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+              </g>
             </svg>
-            <div class="nb-admin-star">★</div>
           </div>
           <div class="nb-name">Mauricio</div>
           <div class="nb-cond">59 años · HTA</div>
@@ -1541,6 +1536,37 @@ function buildSalud(p){
       <div class="stat"><div class="sl">Docs</div><div class="sv">8</div><div class="st st-g">✓ Al día</div></div>
     </div>`;
 
+  // Docs statistics block
+  const docCats = isLuka
+    ? [{label:'Laboratorio', count:6, color:'#00B4D8', pct:50}, {label:'Consultas', count:3, color:'#FF8C42', pct:25}, {label:'Imágenes', count:2, color:'#7C3AED', pct:17}, {label:'Vacunas', count:1, color:'#22C55E', pct:8}]
+    : [{label:'Laboratorio', count:4, color:'#00B4D8', pct:50}, {label:'Consultas', count:2, color:'#FF8C42', pct:25}, {label:'Imágenes', count:1, color:'#7C3AED', pct:12}, {label:'Vacunas', count:1, color:'#22C55E', pct:13}];
+  const totalDocs = isLuka ? 12 : 8;
+  const lastUpload = isLuka ? 'Hace 2 días' : 'Hace 1 semana';
+  const docsStatsHTML = `
+    <div style="background:#fff;margin:10px 16px 0;border-radius:18px;padding:16px 18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-size:14px;font-weight:700;color:var(--t1)">Tus estudios</div>
+        <div style="font-size:11px;color:var(--t3)">Última carga: ${lastUpload}</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:14px">
+        ${docCats.map(d=>`<div style="flex:${d.pct};height:6px;background:${d.color};border-radius:6px" title="${d.label}"></div>`).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        ${docCats.map(d=>`
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:#F8FAFF;border-radius:10px">
+            <div style="width:8px;height:8px;border-radius:50%;background:${d.color};flex-shrink:0"></div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${d.label}</div>
+            </div>
+            <div style="font-size:15px;font-weight:800;color:var(--t1)">${d.count}</div>
+          </div>`).join('')}
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #F0F2F5;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:12px;color:var(--t2)">Total de documentos</div>
+        <div style="font-size:18px;font-weight:800;color:var(--t1)">${totalDocs}</div>
+      </div>
+    </div>`;
+
   // Medication timeline
   const medHTML = `
     <div class="med-box" style="margin-bottom:12px">
@@ -1618,6 +1644,7 @@ function buildSalud(p){
       </div>
     </div>
     ${estudiosHTML}
+    ${docsStatsHTML}
     <div class="insights-section">
       <div class="insights-ttl">Alertas activas</div>
       ${insightsHTML}
@@ -1626,7 +1653,6 @@ function buildSalud(p){
     ${recsHTML}
     ${chartHTML}
     ${statsHTML}
-    ${medHTML}
   `;
 }
 
