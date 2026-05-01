@@ -1,0 +1,2235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Salutia v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --deep:#04101F;
+  --cobalt:#1349C5;--cobalt-dk:#0B35A8;
+  --orange:#FF5C1A;--orange-lt:#FFF3EE;
+  --navy:#023E8A;--blue:#1349C5;
+  --teal:#00B4D8;--tealBr:#00C9E0;
+  /* grad ONLY for login/onboarding */
+  --grad:linear-gradient(135deg,#FF5C1A 0%,#1349C5 100%);
+  --grad-r:linear-gradient(135deg,#1349C5,#FF5C1A);
+  --off:#F5F7FA;--surface:#fff;
+  --border:rgba(0,0,0,.07);
+  --t1:#04101F;--t2:#6B7A8D;--t3:#9AA3AD;
+}
+
+body{font-family:'Inter',sans-serif;background:#0A0E1A;background-image:radial-gradient(ellipse at 50% 0,rgba(19,73,197,.25) 0,transparent 65%);display:flex;justify-content:center;align-items:center;min-height:100vh}
+
+/* ── PHONE FRAME ── */
+.frame{position:relative;width:393px;height:852px;border-radius:54px;background:#1A1A1E;box-shadow:0 0 0 1px rgba(255,255,255,.09),0 0 0 2.5px #060606,0 60px 140px rgba(0,0,0,.75),inset 0 0 0 1px rgba(255,255,255,.04);overflow:hidden}
+.inner{position:absolute;inset:3px;border-radius:51px;overflow:hidden;background:#fff}
+.island{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:122px;height:36px;background:#000;border-radius:20px;z-index:9999;box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+.frame::before{content:'';position:absolute;left:-3px;top:118px;width:3px;height:36px;background:#2c2c2e;border-radius:2px 0 0 2px;box-shadow:0 52px 0 #2c2c2e,0 100px 0 #2c2c2e}
+.frame::after{content:'';position:absolute;right:-3px;top:162px;width:3px;height:68px;background:#2c2c2e;border-radius:0 2px 2px 0}
+
+/* ── SCREENS ── */
+.screen{position:absolute;inset:0;display:none;flex-direction:column;overflow:hidden;background:var(--surface)}
+.screen.active{display:flex}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes modalUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+@keyframes fabPulse{0%,100%{box-shadow:0 6px 28px rgba(255,92,26,.55)}50%{box-shadow:0 6px 36px rgba(255,92,26,.75)}}
+@keyframes scoreIn{from{stroke-dasharray:0 350}to{stroke-dasharray:var(--dash) 350}}
+
+/* ══════════════════════════
+   LOGIN
+══════════════════════════ */
+#s-login{background:#1349C5;justify-content:flex-start;align-items:center;padding:68px 32px 44px;overflow-y:auto}
+.login-logo{margin-bottom:20px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1) both}
+.login-h{font-size:32px;font-weight:700;color:#fff;letter-spacing:-1px;text-align:center;margin-bottom:6px}
+.login-tag{font-size:14px;color:rgba(255,255,255,.65);text-align:center;margin-bottom:44px;line-height:1.5;font-weight:400}
+.lbl{display:block;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.65);margin-bottom:6px}
+.inp{width:100%;padding:14px 16px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.13);color:#fff;font-size:15px;font-family:'Inter',sans-serif;outline:none;margin-bottom:14px;backdrop-filter:blur(8px);transition:border .2s}
+.inp::placeholder{color:rgba(255,255,255,.38)}
+.inp:focus{border-color:rgba(255,255,255,.5)}
+.btn-in{width:100%;padding:16px;border-radius:14px;background:#fff;color:#1349C5;font-size:16px;font-weight:800;border:none;cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:-.3px;box-shadow:0 4px 24px rgba(0,0,0,.18);transition:transform .12s}
+.btn-in:active{transform:scale(.98)}
+.login-footer{font-size:12px;color:rgba(255,255,255,.4);text-align:center}
+
+/* ══════════════════════════
+   FAMILY (NotebookLM + brand)
+══════════════════════════ */
+#s-family{background:#F5F7FA}
+.fam-hero{background:#1349C5;padding:54px 20px 28px;position:relative;overflow:hidden}
+.fam-hero::after{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.fam-hero::before{content:'';position:absolute;bottom:-80px;left:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.fam-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;position:relative}
+.fam-brand{display:flex;align-items:center;gap:8px;color:#fff;font-size:17px;font-weight:700;letter-spacing:-.3px}
+.fam-topicons{display:flex;gap:10px}
+.fam-icon{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.18);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s;backdrop-filter:blur(6px)}
+.fam-icon:active{background:rgba(255,255,255,.3)}
+.fam-greet{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:4px;position:relative}
+.fam-greet-sub{font-size:13px;color:rgba(255,255,255,.65);font-weight:400;position:relative}
+
+.fam-body{flex:1;overflow-y:auto;padding:20px 18px 32px}
+.fam-body::-webkit-scrollbar{display:none}
+.sec-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sec-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px}
+.sec-act{font-size:12px;font-weight:600;color:var(--blue)}
+
+.nb-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.nbcard{background:var(--surface);border-radius:22px;padding:18px 16px 16px;cursor:pointer;box-shadow:0 2px 20px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;overflow:hidden;position:relative;animation:popIn .3s ease both}
+.nbcard:nth-child(1){animation-delay:.05s}
+.nbcard:nth-child(2){animation-delay:.1s}
+.nbcard:active{transform:scale(.95);box-shadow:0 1px 8px rgba(0,0,0,.1)}
+.nb-cover{width:100%;height:70px;border-radius:14px;margin-bottom:13px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.nb-cover-l{background:linear-gradient(145deg,#1349C5 0%,#0B35A8 100%)}
+.nb-cover-m{background:linear-gradient(145deg,#0B35A8 0%,#071F66 100%)}
+.nb-cover-glow{position:absolute;inset:0;background-image:radial-gradient(circle at 80% 20%,rgba(255,255,255,.18) 0%,transparent 55%),radial-gradient(circle at 20% 80%,rgba(0,0,0,.12) 0%,transparent 45%)}
+.nb-initials{font-size:22px;font-weight:800;color:rgba(255,255,255,.92);letter-spacing:-.5px;position:relative}
+.nb-name{font-size:15px;font-weight:700;color:var(--deep);margin-bottom:2px;letter-spacing:-.2px}
+.nb-cond{font-size:12px;color:var(--t2);margin-bottom:10px}
+.nb-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.nb-chip{font-size:10px;font-weight:700;color:var(--blue);background:rgba(0,119,182,.09);padding:3px 8px;border-radius:20px}
+.nb-sync{font-size:10px;color:var(--t3)}
+.nb-add{border:2px dashed #C5D5E5;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:168px;gap:8px;transition:border-color .15s,background .15s}
+.nb-add:active{background:rgba(0,0,0,.02)}
+.nb-add-ico{width:36px;height:36px;border-radius:11px;background:var(--off);display:flex;align-items:center;justify-content:center;color:var(--t3)}
+.nb-add-lbl{font-size:12px;color:var(--t3);font-weight:500}
+
+/* ══════════════════════════
+   PROFILE HEADER
+══════════════════════════ */
+#s-profile{background:var(--off)}
+.prof-hdr{background:#1349C5;padding:52px 18px 16px;display:flex;align-items:center;gap:12px}
+.back-btn{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.18);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;transition:background .15s}
+.back-btn:active{background:rgba(255,255,255,.3)}
+.prof-info{flex:1;min-width:0}
+.prof-name{font-size:16px;font-weight:700;color:#fff;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof-cond{font-size:12px;color:rgba(255,255,255,.65)}
+.prof-av{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;background:rgba(255,255,255,.25);border:1.5px solid rgba(255,255,255,.35)}
+
+/* ── TAB CONTENT ── */
+.tab-content{flex:1;overflow:hidden;position:relative}
+.tab{position:absolute;inset:0;overflow-y:auto;opacity:0;pointer-events:none;padding-bottom:90px;transition:opacity .18s ease}
+.tab.active{opacity:1;pointer-events:all;animation:fadeUp .22s ease both}
+.tab::-webkit-scrollbar{display:none}
+#tab-salu{display:flex;flex-direction:column;padding-bottom:0;overflow:hidden;position:absolute;top:0;left:0;right:0;bottom:82px}
+
+/* ── BOTTOM NAV (5 tabs) ── */
+.bnav{position:absolute;bottom:0;left:0;right:0;height:82px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:flex-start;padding:10px 0 0;z-index:100}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:4px 0;cursor:pointer;position:relative}
+.ni-lbl{font-size:9px;font-weight:600;color:var(--t3);transition:color .15s;letter-spacing:.1px}
+.ni.active .ni-lbl{color:#FF5C1A}
+.ni-dot{width:4px;height:4px;border-radius:50%;background:transparent;transition:background .15s;margin-top:1px}
+.ni.active .ni-dot{background:#FF5C1A}
+
+/* Center Salu FAB */
+.ni-salu-slot{flex:1.3;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:0;cursor:pointer;position:relative}
+.salu-fab{
+  position:absolute;
+  bottom:-12px;
+  width:54px;height:54px;border-radius:50%;
+  background:#FF5C1A;
+  border:3px solid var(--surface);
+  box-shadow:0 4px 20px rgba(255,92,26,.5);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
+  animation:fabPulse 3s ease-in-out infinite;
+  z-index:10;
+}
+.salu-fab:active{transform:scale(.88)}
+.salu-fab.active-tab{box-shadow:0 6px 26px rgba(255,92,26,.7);border-color:rgba(255,255,255,.9)}
+.salu-fab-lbl{position:absolute;bottom:-30px;font-size:9px;font-weight:800;color:var(--t3);letter-spacing:.1px;transition:color .15s}
+.salu-fab-lbl.active-tab{color:#FF5C1A}
+
+/* ══════════════════════════
+   CREDENTIAL CARD
+══════════════════════════ */
+.cred-wrap{padding:16px 16px 0}
+.cred{border-radius:24px;background:linear-gradient(145deg,#1349C5 0%,#0B35A8 100%);padding:20px 20px 20px;color:#fff;position:relative;overflow:hidden;box-shadow:0 14px 44px rgba(19,73,197,.42),0 4px 12px rgba(0,0,0,.15)}
+.cred::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.1) 50%,transparent 62%);background-size:200% 100%;animation:shimmer 4s ease-in-out infinite}
+.cred-bubble1{position:absolute;top:-55px;right:-55px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.cred-bubble2{position:absolute;bottom:-65px;left:-25px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.cred-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:relative}
+.cred-brand{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;opacity:.9;letter-spacing:.1px}
+.cred-share{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .15s,transform .15s;backdrop-filter:blur(4px)}
+.cred-share:active{background:rgba(255,255,255,.3);transform:scale(.9)}
+.cred-chip{width:34px;height:26px;border-radius:6px;background:linear-gradient(135deg,rgba(255,255,255,.32),rgba(255,255,255,.14));border:1px solid rgba(255,255,255,.28);margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2.5px;padding:4px;position:relative}
+.chip-c{background:rgba(255,255,255,.22);border-radius:1.5px}
+.cred-name{font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:3px;position:relative}
+.cred-meta{font-size:11.5px;opacity:.7;margin-bottom:16px;position:relative}
+.cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
+.ci-lbl{font-size:9.5px;opacity:.6;text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:2px}
+.ci-val{font-size:13px;font-weight:600}
+
+/* Profile info sections */
+.psec{background:var(--surface);margin:12px 16px 0;border-radius:18px;overflow:hidden;box-shadow:0 1px 10px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.psec-h{padding:13px 16px 10px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--border)}
+.prow{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,.04)}
+.prow:last-child{border-bottom:none}
+.prow-l{font-size:13px;color:var(--t2)}
+.prow-r{font-size:13px;font-weight:600;color:var(--t1);text-align:right;max-width:58%}
+
+/* ══════════════════════════
+   MI SALUD
+══════════════════════════ */
+.salud-hero{background:#1349C5;padding:20px 16px 28px;position:relative;overflow:hidden}
+.salud-hero::after{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07)}
+.salud-hero-ttl{font-size:12px;font-weight:700;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px;position:relative}
+.score-wrap{display:flex;align-items:center;justify-content:space-between;position:relative}
+.score-svg-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.score-label-wrap{flex:1;padding-left:20px}
+.score-main{font-size:42px;font-weight:800;color:#fff;letter-spacing:-1.5px;line-height:1}
+.score-sub{font-size:12px;color:rgba(255,255,255,.65);margin-top:4px;font-weight:400}
+.score-status{display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:rgba(255,255,255,.18);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.25)}
+.score-dot{width:7px;height:7px;border-radius:50%}
+
+.insights-section{padding:14px 16px 0}
+.insights-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.insight-card{background:var(--surface);border-radius:16px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.insight-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.insight-body{flex:1}
+.insight-ttl-txt{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.insight-sub-txt{font-size:12px;color:var(--t2);line-height:1.4}
+.insight-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0}
+
+.alerts-section{padding:12px 16px 0}
+.alert{border-radius:14px;padding:12px 14px;display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;border:1px solid}
+.alert-r{background:#FEF2F2;border-color:rgba(239,68,68,.15)}
+.alert-y{background:#FFFBEB;border-color:rgba(245,158,11,.15)}
+.alert-g{background:#F0FDF4;border-color:rgba(34,197,94,.15)}
+.adot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.adot-r{background:#EF4444}.adot-y{background:#F59E0B}.adot-g{background:#22C55E}
+.atxt{font-size:13px;color:var(--t1);line-height:1.5}
+.atxt strong{font-weight:700}
+
+.chart-box{background:var(--surface);border-radius:18px;padding:16px;margin:12px 16px 0;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.chart-ttl{font-size:14px;font-weight:700;color:var(--deep);margin-bottom:2px;letter-spacing:-.2px}
+.chart-sub{font-size:11px;color:var(--t3);margin-bottom:12px}
+
+.stats-row{display:flex;gap:8px;margin:12px 16px 0}
+.stat{flex:1;background:var(--surface);border-radius:14px;padding:13px 11px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.sl{font-size:10.5px;color:var(--t3);margin-bottom:4px}
+.sv{font-size:20px;font-weight:800;color:var(--deep);line-height:1}
+.su{font-size:10.5px;color:var(--t3);font-weight:400}
+.st{font-size:11px;margin-top:4px;font-weight:600}
+.st-r{color:#EF4444}.st-y{color:#F59E0B}.st-g{color:#22C55E}
+
+/* Visual medication plan */
+.med-box{background:var(--surface);margin:12px 16px 0;border-radius:18px;padding:16px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.med-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px}
+.med-timeline{display:flex;flex-direction:column;gap:0}
+.med-slot{display:flex;align-items:flex-start;gap:12px;padding-bottom:12px;position:relative}
+.med-slot:not(:last-child)::after{content:'';position:absolute;left:19px;top:40px;bottom:0;width:2px;background:var(--off)}
+.med-time-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;position:relative;z-index:1}
+.med-slot-body{flex:1;padding-top:2px}
+.med-slot-time{font-size:10.5px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.med-pill-row{display:flex;align-items:center;gap:8px;background:var(--off);border-radius:12px;padding:10px 12px;margin-bottom:5px}
+.med-pill-row:last-child{margin-bottom:0}
+.pill-info{flex:1}
+.pill-name{font-size:13px;font-weight:700;color:var(--deep);margin-bottom:1px}
+.pill-dose{font-size:11px;color:var(--t2)}
+.pill-check{width:24px;height:24px;border-radius:7px;border:2px solid #DDE5ED;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.pill-check.done{background:#FF5C1A;border-color:transparent}
+
+/* ══════════════════════════
+   SALU CHAT
+══════════════════════════ */
+.chat-header{background:#1349C5;padding:16px 16px 0;position:relative;overflow:hidden}
+.chat-header::after{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07)}
+.chat-header-inner{display:flex;align-items:center;gap:10px;margin-bottom:14px;position:relative}
+.salu-av{width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.salu-name-wrap{}
+.salu-title{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.salu-subtitle{font-size:11px;color:rgba(255,255,255,.65)}
+.src-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;position:relative}
+.src-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:14px;position:relative}
+.src-scroll::-webkit-scrollbar{display:none}
+.src-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;color:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;backdrop-filter:blur(4px);transition:background .15s}
+.src-chip:active{background:rgba(255,255,255,.3)}
+.sdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.msgs{flex:1;overflow-y:auto;padding:14px 14px 72px;display:flex;flex-direction:column;gap:13px;background:#F5F7FA}
+.msgs::-webkit-scrollbar{display:none}
+.msg{display:flex;gap:8px;align-items:flex-end}
+.msg.user{flex-direction:row-reverse}
+.mav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mav-s{background:#1349C5}
+.mav-u{background:rgba(0,119,182,.12)}
+.mbub-wrap{max-width:78%}
+.mbub{padding:11px 14px;border-radius:18px;font-size:13.5px;line-height:1.55;display:inline-block;width:100%}
+.msg.salu .mbub{background:#fff;color:var(--t1);border-bottom-left-radius:5px;box-shadow:0 1px 8px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04)}
+.msg.user .mbub{background:#1349C5;color:#fff;border-bottom-right-radius:5px}
+.msrc{margin-top:5px;display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3);padding:0 2px}
+.msrc-pill{background:rgba(0,119,182,.1);color:var(--blue);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 14px;background:#fff;border-radius:18px;border-bottom-left-radius:5px;width:fit-content;box-shadow:0 1px 8px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04)}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:dot 1.2s ease-in-out infinite}
+.tdot:nth-child(2){animation-delay:.2s}
+.tdot:nth-child(3){animation-delay:.4s}
+
+.chat-bar{background:rgba(255,255,255,.97);padding:8px 8px 8px 16px;display:flex;gap:8px;align-items:center;position:absolute;bottom:12px;left:14px;right:14px;z-index:50;backdrop-filter:blur(16px);box-shadow:0 4px 24px rgba(4,16,31,.14),0 0 0 1px rgba(0,0,0,.07);border-radius:32px;border:none}
+.chat-inp{flex:1;background:var(--off);border:1.5px solid transparent;outline:none;border-radius:22px;padding:10px 16px;font-size:14px;font-family:'Inter',sans-serif;color:var(--deep);transition:border-color .2s}
+.chat-inp::placeholder{color:var(--t3)}
+.chat-inp:focus{border-color:rgba(19,73,197,.3);background:#fff}
+.send-btn{width:38px;height:38px;border-radius:50%;background:#FF5C1A;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(255,92,26,.45);transition:transform .12s}
+.send-btn:active{transform:scale(.88)}
+
+/* Salu + FAB */
+.salu-plus{position:absolute;right:14px;bottom:88px;width:44px;height:44px;border-radius:50%;background:#FF5C1A;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(255,92,26,.5);z-index:60;transition:transform .15s}
+.salu-plus:active{transform:scale(.88)}
+
+/* ══════════════════════════
+   HISTORIAL
+══════════════════════════ */
+.hist-top{background:#1349C5;padding:14px 16px;display:flex;gap:7px;overflow-x:auto}
+.hist-top::-webkit-scrollbar{display:none}
+.fchip{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.75);cursor:pointer;background:rgba(255,255,255,.1);flex-shrink:0;white-space:nowrap;transition:all .15s;backdrop-filter:blur(4px)}
+.fchip.on{background:#fff;border-color:#fff;color:#1349C5}
+.hlist{padding:10px 16px}
+.mo-lbl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 8px}
+.mo-lbl:first-child{margin-top:4px}
+.dcard{background:var(--surface);border-radius:16px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 10px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);cursor:pointer;transition:transform .12s}
+.dcard:active{transform:scale(.99)}
+.dico{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.d-lab{background:rgba(0,180,216,.1)}.d-con{background:rgba(255,148,77,.1)}.d-vac{background:rgba(34,197,94,.1)}.d-med{background:rgba(139,92,246,.1)}
+.dinf{flex:1;min-width:0}
+.dname{font-size:14px;font-weight:600;color:var(--deep);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ddate{font-size:12px;color:var(--t2)}
+.dbadge{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.b-r{background:#EF4444}.b-y{background:#F59E0B}.b-g{background:#22C55E}
+
+/* ══════════════════════════
+   CONFIG TAB
+══════════════════════════ */
+.cfg-hero{background:#1349C5;padding:20px 20px 28px;display:flex;align-items:center;gap:14px}
+.cfg-av{width:56px;height:56px;border-radius:18px;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;flex-shrink:0}
+.cfg-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.cfg-email{font-size:12px;color:rgba(255,255,255,.65)}
+.cfg-sec{background:var(--surface);margin:14px 16px 0;border-radius:18px;overflow:hidden;box-shadow:0 1px 10px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.cfg-row{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer}
+.cfg-row:last-child{border-bottom:none}
+.cfg-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cfg-txt{flex:1}
+.cfg-row-ttl{font-size:14px;font-weight:600;color:var(--t1)}
+.cfg-row-sub{font-size:12px;color:var(--t2)}
+.cfg-arr{color:var(--t3)}
+
+/* ══════════════════════════
+   RECOMENDACIONES SALU
+══════════════════════════ */
+.rec-section{padding:12px 16px 0}
+.rec-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.rec-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px}
+.rec-badge{font-size:10px;font-weight:700;color:var(--blue);background:rgba(0,119,182,.09);padding:2px 8px;border-radius:20px}
+.rec-card{background:#fff;border-radius:16px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:11px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04);border-left:3px solid #FF5C1A}
+.rec-ico{font-size:20px;line-height:1;flex-shrink:0;margin-top:1px}
+.rec-body{}
+.rec-name{font-size:13px;font-weight:700;color:var(--deep);margin-bottom:3px}
+.rec-sub{font-size:12px;color:var(--t2);line-height:1.45}
+
+/* ══════════════════════════
+   ESTUDIOS RECOMENDADOS
+══════════════════════════ */
+.estudios-section{padding:12px 16px 0}
+.estudios-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.estudios-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px}
+.estudios-progress{font-size:11px;font-weight:700;color:var(--blue)}
+.estudios-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+.estudios-scroll::-webkit-scrollbar{display:none}
+.estudio-card{flex-shrink:0;width:108px;border-radius:18px;padding:13px 12px 12px;display:flex;flex-direction:column;gap:6px;position:relative;transition:transform .15s}
+.estudio-card:active{transform:scale(.96)}
+.estudio-card.done{background:#fff;border:1.5px solid rgba(34,197,94,.2);box-shadow:0 2px 12px rgba(34,197,94,.08),0 0 0 0 transparent}
+.estudio-card.pending{background:var(--off);border:1.5px dashed #C5D5E5}
+.estudio-ico{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:2px}
+.estudio-card.done .estudio-ico{background:rgba(34,197,94,.12)}
+.estudio-card.pending .estudio-ico{background:rgba(180,195,210,.18)}
+.estudio-name{font-size:11.5px;font-weight:700;line-height:1.3;flex:1}
+.estudio-card.done .estudio-name{color:var(--deep)}
+.estudio-card.pending .estudio-name{color:var(--t3)}
+.estudio-date{font-size:10px;font-weight:600}
+.estudio-card.done .estudio-date{color:#22C55E}
+.estudio-card.pending .estudio-date{color:var(--t3)}
+.estudio-badge{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.estudio-card.done .estudio-badge{background:#22C55E}
+.estudio-card.pending .estudio-badge{background:#DDE5ED}
+.estudio-expand{overflow:hidden;max-height:0;transition:max-height .25s ease,opacity .2s ease;opacity:0}
+.estudio-card.expanded .estudio-expand{max-height:80px;opacity:1}
+.estudio-next-bar{margin-top:8px;background:rgba(34,197,94,.08);border-radius:10px;padding:7px 9px}
+.estudio-next-lbl{font-size:9.5px;font-weight:700;color:#22C55E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.estudio-next-val{font-size:11px;font-weight:700;color:var(--deep)}
+.estudio-next-days{font-size:10px;color:var(--t2);margin-top:1px}
+.estudio-card.done{cursor:pointer}
+
+/* ══════════════════════════
+   MODALS
+══════════════════════════ */
+.overlay{position:absolute;inset:0;background:rgba(4,16,31,.55);display:none;align-items:flex-end;z-index:500;backdrop-filter:blur(6px)}
+.overlay.on{display:flex}
+.sheet{background:var(--surface);width:100%;border-radius:28px 28px 0 0;padding:20px 20px 32px;animation:modalUp .28s cubic-bezier(.32,.72,0,1)}
+.sheet-handle{width:36px;height:4px;background:#DDE3EC;border-radius:2px;margin:0 auto 20px}
+.sheet-ttl{font-size:18px;font-weight:800;color:var(--deep);margin-bottom:4px;letter-spacing:-.3px}
+.sheet-sub{font-size:13px;color:var(--t2);margin-bottom:20px}
+
+/* Share modal card */
+.scard{background:linear-gradient(145deg,#1349C5,#0B35A8);border-radius:20px;padding:20px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(19,73,197,.35)}
+.scard::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.1) 50%,transparent 62%);background-size:200% 100%;animation:shimmer 4s ease-in-out infinite}
+.sc-name{font-size:17px;font-weight:800;margin-bottom:2px;position:relative;letter-spacing:-.3px}
+.sc-id{font-size:11px;opacity:.65;margin-bottom:14px;position:relative}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative}
+.sc-lbl{font-size:9.5px;opacity:.6;text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:2px}
+.sc-val{font-size:13px;font-weight:600}
+.sactions{display:flex;gap:10px}
+.sbtn{flex:1;padding:15px;border-radius:14px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:transform .12s}
+.sbtn:active{transform:scale(.97)}
+.sbtn-copy{background:var(--off);color:var(--navy);border:1.5px solid #DDE3EC}
+.sbtn-share{background:#1349C5;color:#fff;box-shadow:0 4px 16px rgba(19,73,197,.35)}
+
+/* Doc action sheet */
+.doc-preview{background:var(--off);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.doc-prev-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.doc-prev-name{font-size:14px;font-weight:700;color:var(--t1)}
+.doc-prev-date{font-size:12px;color:var(--t2)}
+.doc-actions{display:flex;gap:10px}
+.doc-act-btn{flex:1;padding:14px 10px;border-radius:16px;border:none;cursor:pointer;font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;gap:7px;transition:transform .12s}
+.doc-act-btn:active{transform:scale(.96)}
+.doc-act-share{background:var(--off);border:1.5px solid #DDE3EC}
+.doc-act-salu{background:#1349C5}
+.doc-act-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.doc-act-share .doc-act-ico{background:rgba(0,119,182,.1)}
+.doc-act-salu .doc-act-ico{background:rgba(255,255,255,.2)}
+.doc-act-lbl{font-size:12px;font-weight:700}
+.doc-act-share .doc-act-lbl{color:var(--navy)}
+.doc-act-salu .doc-act-lbl{color:#fff}
+
+/* Register options */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.reg-card{border-radius:18px;padding:16px;cursor:pointer;transition:transform .15s;display:flex;flex-direction:column;gap:8px}
+.reg-card:active{transform:scale(.96)}
+.reg-card-blue{background:rgba(0,119,182,.08)}
+.reg-card-orange{background:rgba(255,148,77,.08)}
+.reg-card-purple{background:rgba(139,92,246,.08)}
+.reg-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.reg-ico-b{background:rgba(0,119,182,.15)}
+.reg-ico-o{background:rgba(255,148,77,.15)}
+.reg-ico-p{background:rgba(139,92,246,.15)}
+.reg-name{font-size:15px;font-weight:700;color:var(--t1)}
+.reg-sub{font-size:12px;color:var(--t2);line-height:1.4}
+.reg-arr{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;align-self:flex-end}
+.reg-arr-b{background:rgba(0,119,182,.15)}
+.reg-arr-o{background:rgba(255,148,77,.15)}
+.reg-card-wide{border-radius:18px;padding:16px;cursor:pointer;transition:transform .15s;display:flex;align-items:center;gap:14px}
+.reg-card-wide:active{transform:scale(.97)}
+
+/* Plan cards */
+.plan-card{border-radius:18px;padding:15px 16px;margin-bottom:10px;cursor:pointer;border:2px solid transparent;transition:all .18s;position:relative;overflow:hidden}
+.plan-card.active{border-color:#1349C5;background:#fff;box-shadow:0 2px 16px rgba(19,73,197,.12)}
+.plan-card.inactive{background:var(--off);border-color:transparent}
+.plan-card.recommended::before{content:'RECOMENDADO';position:absolute;top:0;right:16px;font-size:8.5px;font-weight:800;color:var(--tealBr);letter-spacing:.8px;padding:3px 0}
+.plan-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.plan-name{font-size:15px;font-weight:800;color:var(--deep)}
+.plan-price{font-size:18px;font-weight:800;color:var(--navy)}
+.plan-price span{font-size:11px;font-weight:500;color:var(--t2)}
+.plan-features{font-size:11.5px;color:var(--t2);line-height:1.6}
+.plan-radio{width:20px;height:20px;border-radius:50%;border:2px solid #DDE3EC;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.plan-card.active .plan-radio{border-color:#1349C5;background:#1349C5}
+
+/* Payment method */
+.pay-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer}
+.pay-row:last-child{border-bottom:none}
+.pay-ico{width:42px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;border:1px solid rgba(0,0,0,.07)}
+.pay-info{flex:1}
+.pay-name{font-size:13px;font-weight:600;color:var(--deep)}
+.pay-sub{font-size:11px;color:var(--t2)}
+.pay-default{font-size:10px;font-weight:700;color:var(--blue);background:rgba(0,119,182,.09);padding:2px 8px;border-radius:10px}
+
+/* Close button */
+.sheet-close{position:absolute;right:20px;top:20px;width:32px;height:32px;border-radius:50%;background:var(--off);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2)}
+
+/* ── ADMIN BADGE ── */
+.nb-cover{position:relative}
+.nb-admin-star{position:absolute;top:-7px;right:-7px;width:22px;height:22px;background:#FF5C1A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;border:2.5px solid #fff;box-shadow:0 2px 8px rgba(255,92,26,.5);z-index:3}
+.nb-admin-chip{font-size:9.5px;font-weight:800;color:#fff;background:#FF5C1A;padding:2px 9px;border-radius:10px;display:inline-block;letter-spacing:.2px;margin-top:4px}
+
+/* ── SALUD HUB ── */
+.salud-hub-wrap{padding:16px}
+.shub-lbl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:14px}
+.shc{background:#fff;border-radius:18px;padding:16px 18px;margin-bottom:11px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 16px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04);cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.shc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#FF5C1A}
+.shc:active{transform:scale(.97)}
+.shc-ico{width:46px;height:46px;border-radius:14px;background:var(--off);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:22px}
+.shc-body{flex:1}
+.shc-ttl{font-size:15px;font-weight:700;color:var(--t1);margin-bottom:2px}
+.shc-sub{font-size:12px;color:var(--t2)}
+.shc-badge{display:inline-block;font-size:10px;font-weight:700;color:#fff;background:#EF4444;padding:2px 8px;border-radius:10px;margin-top:4px}
+.shc-badge-y{background:#F59E0B}
+.shc-arr{color:#C5D5E5;font-size:18px}
+
+/* ── SALUD SUB-HEADER ── */
+.salud-subhdr{background:#1349C5;padding:13px 16px 12px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.salud-back{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.18);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.salud-sub-ttl{font-size:16px;font-weight:700;color:#fff;letter-spacing:-.2px}
+
+/* ── PLAN DE MEDICACIÓN ── */
+.med-tab-row{display:flex;background:var(--off);margin:12px 16px 0;border-radius:12px;padding:3px}
+.med-tab-btn{flex:1;padding:9px 0;border-radius:9px;border:none;font-size:13px;font-weight:600;color:var(--t2);background:transparent;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s}
+.med-tab-btn.on{background:#fff;color:#1349C5;font-weight:700;box-shadow:0 1px 8px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04)}
+.adh-box{background:#fff;margin:12px 16px 0;border-radius:18px;padding:18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.adh-row{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.adh-ring{position:relative;width:72px;height:72px;flex-shrink:0}
+.adh-ring svg{transform:rotate(-90deg)}
+.adh-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:var(--deep)}
+.adh-info-ttl{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.adh-info-sub{font-size:12px;color:var(--t2)}
+.adh-sub-lbl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px}
+.adh-drug{margin-bottom:12px}
+.adh-drug:last-child{margin-bottom:0}
+.adh-drug-name{font-size:12px;font-weight:600;color:var(--t1);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.adh-drug-name span{font-size:11px;color:var(--t3);font-weight:400}
+.blister{display:flex;gap:4px}
+.bp{width:29px;height:29px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:8px;color:var(--t3);gap:1px}
+.bp-ok{background:#22C55E}.bp-miss{background:#EF4444}.bp-fut{background:var(--off);border:1.5px dashed #DDE3EC}
+.bp-ico{font-size:12px}
+.stock-box{background:#fff;margin:10px 16px 0;border-radius:18px;padding:18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.stock-ttl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px}
+.stock-item{margin-bottom:14px}.stock-item:last-child{margin-bottom:0}
+.stock-top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.stock-name{font-size:13px;font-weight:600;color:var(--t1)}.stock-count{font-size:12px;color:var(--t2)}.stock-count b{color:var(--deep)}
+.stock-bar{height:7px;background:var(--off);border-radius:4px;overflow:hidden}.stock-fill{height:100%;border-radius:4px}
+.stock-warn{font-size:11px;color:#EF4444;font-weight:600;margin-top:4px}
+.rutina-box{background:#fff;margin:12px 16px 0;border-radius:18px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.rit-item{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(0,0,0,.05)}
+.rit-item:last-of-type{border-bottom:none}
+.rit-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rit-body{flex:1}.rit-name{font-size:14px;font-weight:600;color:var(--t1)}.rit-dose{font-size:12px;color:var(--t2);margin-bottom:4px}
+.rit-times{display:flex;gap:5px;flex-wrap:wrap}.rit-time{font-size:10px;font-weight:700;color:var(--blue);background:rgba(0,119,182,.08);padding:2px 8px;border-radius:8px}
+.rit-actions{display:flex;gap:6px}.rit-btn{padding:6px 14px;border-radius:9px;border:1.5px solid rgba(19,73,197,.2);background:#EEF3FF;cursor:pointer;font-size:12px;font-weight:700;color:#1349C5;font-family:'Inter',sans-serif;transition:background .15s}
+.rit-btn:active{background:#DDE6FF}
+.rutina-add{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;color:#FF5C1A;font-size:14px;font-weight:700;cursor:pointer;border-top:1px solid rgba(0,0,0,.05)}
+
+/* ── VACUNAS ── */
+.vac-section{margin:12px 16px 0}
+.vac-sec-lbl{font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px}
+.vac-item{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:11px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)}
+.vac-ico{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.vi-ok{background:#DCFCE7}.vi-pend{background:#FFFBEB}
+.vac-body{flex:1}.vac-name{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:1px}.vac-detail{font-size:11px;color:var(--t2)}
+.vac-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.vb-ok{background:#DCFCE7;color:#16A34A}.vb-pend{background:#FFFBEB;color:#D97706}
+.next-dose-card{background:#fff;border-radius:16px;padding:14px 16px;margin-bottom:9px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.07),0 0 0 1px rgba(0,0,0,.04);position:relative;overflow:hidden}
+.next-dose-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:#FF5C1A}
+.nd-ico{width:40px;height:40px;border-radius:12px;background:rgba(0,180,216,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px}
+.nd-body{flex:1}.nd-name{font-size:14px;font-weight:700;color:var(--t1);margin-bottom:2px}.nd-dose{font-size:12px;color:var(--t2);margin-bottom:6px}
+.nd-date{font-size:11px;font-weight:700;color:var(--blue);background:rgba(0,119,182,.08);padding:3px 10px;border-radius:10px;display:inline-block}
+.form-field{margin-bottom:12px}.form-lbl{display:block;font-size:12px;font-weight:700;color:var(--t1);margin-bottom:5px}
+.form-inp{width:100%;padding:11px 13px;border-radius:12px;border:1.5px solid #DDE3EC;font-size:14px;font-family:'Inter',sans-serif;color:var(--deep);outline:none;background:#fff}
+.form-inp:focus{border-color:#1349C5}
+select.form-inp{-webkit-appearance:none;cursor:pointer}
+</style>
+</head>
+<body>
+
+<div class="frame">
+  <div class="island"></div>
+  <div class="inner">
+
+  <!-- ══ LOGIN ══ -->
+  <div class="screen active" id="s-login">
+    <div style="text-align:center;animation:popIn .55s cubic-bezier(.34,1.56,.64,1) both;margin-bottom:28px">
+      <!-- Wordmark -->
+      <div style="font-size:48px;font-weight:600;color:#fff;letter-spacing:0.5px;line-height:1;font-family:'Inter',sans-serif">Salutia</div>
+      <!-- Tagline -->
+      <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:1.8px;text-transform:uppercase;margin-top:12px;font-family:'Inter',sans-serif">Vida Potenciada</div>
+    </div>
+    <div style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:28px;line-height:1.5;font-weight:400;text-align:center">Tu salud completa, en tu teléfono.</div>
+    <label class="lbl">Email</label>
+    <input class="inp" type="email" placeholder="tu@email.com" value="luka@salutia.com">
+    <label class="lbl">Contraseña</label>
+    <input class="inp" type="password" placeholder="••••••••" value="password">
+    <button class="btn-in" onclick="go('s-family')">Ingresar</button>
+    <div style="display:flex;gap:12px;margin-top:20px">
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.15);margin-top:9px"></div>
+      <span style="font-size:12px;color:rgba(255,255,255,.4)">o</span>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,.15);margin-top:9px"></div>
+    </div>
+    <button style="width:100%;margin-top:14px;padding:15px;border-radius:14px;background:rgba(255,255,255,.12);color:#fff;font-size:15px;font-weight:700;border:1.5px solid rgba(255,255,255,.25);cursor:pointer;font-family:'Inter',sans-serif;backdrop-filter:blur(8px)" onclick="go('s-family')">Continuar con Google</button>
+    <div class="login-footer" style="margin-top:24px">¿No tenés cuenta? <span style="color:#FF5C1A;font-weight:700">Registrate gratis</span></div>
+  </div>
+
+  <!-- ══ FAMILY ══ -->
+  <div class="screen" id="s-family">
+    <div class="fam-hero">
+      <div class="fam-topbar">
+        <div class="fam-brand">
+          <svg width="23" height="24" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.85)" stroke-width="1.8" fill="none"/>
+            <path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.85)" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span style="font-family:Inter;letter-spacing:0px;text-align:left">Salutia</span>
+        </div>
+        <div class="fam-topicons">
+          <button class="fam-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </button>
+          <button class="fam-icon">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="fam-greet">Hola, Luka 👋</div>
+      <div class="fam-greet-sub">Grupo de salud · Sync hace 1 min</div>
+    </div>
+    <div class="fam-body">
+      <div class="sec-row"><span class="sec-ttl">Perfiles activos</span><span class="sec-act">Ver todo</span></div>
+      <div class="nb-grid">
+        <div class="nbcard" onclick="openProfile('luka')">
+          <div class="nb-cover nb-cover-l" style="overflow:hidden">
+            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none" preserveAspectRatio="xMidYMid meet">
+              <rect width="100" height="70" fill="#1349C5"/>
+              <!-- avatar bg oval -->
+              <ellipse cx="50" cy="42" rx="32" ry="34" fill="rgba(255,255,255,0.08)"/>
+              <!-- sweater golden -->
+              <path d="M8 80 L8 54 Q10 48 22 46 L34 52 Q42 56 50 56 Q58 56 66 52 L78 46 Q90 48 92 54 L92 80Z" fill="#F5B200"/>
+              <!-- sweater highlight strip -->
+              <rect x="10" y="50" width="9" height="24" rx="4.5" fill="rgba(255,255,255,0.22)"/>
+              <!-- collar left flap -->
+              <path d="M34 52 L41 55 L50 65 L44 52Z" fill="#EEF1FF"/>
+              <!-- collar right flap -->
+              <path d="M66 52 L59 55 L50 65 L56 52Z" fill="#EEF1FF"/>
+              <!-- collar center fold shadow -->
+              <path d="M44 52 L50 65 L56 52" stroke="#D8DCFF" stroke-width="0.6" fill="none"/>
+              <!-- neck -->
+              <rect x="43" y="41" width="14" height="14" rx="5" fill="#FDDCB5"/>
+              <!-- ears -->
+              <ellipse cx="35" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
+              <ellipse cx="65" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
+              <!-- head -->
+              <ellipse cx="50" cy="24" rx="14.5" ry="15" fill="#FDDCB5"/>
+              <!-- hair main mass -->
+              <path d="M36 24 Q35 10 50 9 Q65 10 65 23 Q63 13 50 13 Q37 13 36 24Z" fill="#282828"/>
+              <!-- hair top fill -->
+              <ellipse cx="50" cy="11" rx="14.5" ry="4.5" fill="#282828"/>
+              <!-- hair right sweep (goes lower on right side) -->
+              <path d="M63 14 Q68 17 67 24" stroke="#282828" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+              <!-- hair front-left tuft -->
+              <path d="M36 23 Q34 17 38 13 L37.5 19Z" fill="#282828"/>
+              <!-- eyebrows -->
+              <rect x="41.5" y="20" width="6.5" height="1.8" rx="0.9" fill="#282828"/>
+              <rect x="52" y="20" width="6.5" height="1.8" rx="0.9" fill="#282828"/>
+              <!-- eyes -->
+              <circle cx="44.5" cy="25.5" r="2.5" fill="#282828"/>
+              <circle cx="55.5" cy="25.5" r="2.5" fill="#282828"/>
+              <!-- nose dot -->
+              <circle cx="50" cy="30.5" r="1.3" fill="#DDA880"/>
+              <!-- mouth -->
+              <path d="M47 35 Q50 37 53 35" stroke="#C09070" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="nb-name">Luka</div>
+          <div class="nb-cond">26 años · T1D</div>
+          <div class="nb-meta"><span class="nb-chip">12 docs</span><span class="nb-sync">Hoy</span></div>
+        </div>
+        <div class="nbcard" onclick="openProfile('mauricio')">
+          <div class="nb-cover nb-cover-m" style="position:relative;overflow:hidden">
+            <svg width="100%" height="100%" viewBox="0 0 100 70" fill="none" preserveAspectRatio="xMidYMid meet">
+              <rect width="100" height="70" fill="#0B35A8"/>
+              <!-- avatar bg oval -->
+              <ellipse cx="50" cy="42" rx="32" ry="34" fill="rgba(255,255,255,0.07)"/>
+              <!-- suit jacket navy -->
+              <path d="M8 80 L8 54 Q10 48 22 46 L34 52 Q42 56 50 56 Q58 56 66 52 L78 46 Q90 48 92 54 L92 80Z" fill="#1A2E72"/>
+              <!-- suit highlight strip -->
+              <rect x="10" y="50" width="9" height="24" rx="4.5" fill="rgba(255,255,255,0.12)"/>
+              <!-- collar left flap -->
+              <path d="M34 52 L41 55 L50 65 L44 52Z" fill="#EEF1FF"/>
+              <!-- collar right flap -->
+              <path d="M66 52 L59 55 L50 65 L56 52Z" fill="#EEF1FF"/>
+              <!-- collar center fold -->
+              <path d="M44 52 L50 65 L56 52" stroke="#D8DCFF" stroke-width="0.6" fill="none"/>
+              <!-- neck -->
+              <rect x="43" y="41" width="14" height="14" rx="5" fill="#FDDCB5"/>
+              <!-- ears -->
+              <ellipse cx="35" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
+              <ellipse cx="65" cy="26" rx="2.5" ry="3.5" fill="#F0B888"/>
+              <!-- head -->
+              <ellipse cx="50" cy="24" rx="14.5" ry="15" fill="#FDDCB5"/>
+              <!-- hair gray — shorter, more conservative cut -->
+              <path d="M36 23 Q36 11 50 10 Q64 11 64 22 Q62 13 50 13 Q38 13 36 23Z" fill="#8A8A8A"/>
+              <!-- hair top fill -->
+              <ellipse cx="50" cy="11.5" rx="14" ry="4" fill="#8A8A8A"/>
+              <!-- hair right side -->
+              <path d="M62 14 Q66 16 65 23" stroke="#8A8A8A" stroke-width="5" stroke-linecap="round" fill="none"/>
+              <!-- hair front — no tuft, clean mature cut -->
+              <path d="M36 22 Q35 17 38 13 L37.5 18Z" fill="#8A8A8A"/>
+              <!-- gray highlight streaks -->
+              <path d="M40 12 Q46 10 52 11" stroke="#C0C0C0" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/>
+              <path d="M54 11 Q59 12 63 15" stroke="#C0C0C0" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.5"/>
+              <!-- eyebrows — thicker, more distinguished -->
+              <rect x="41" y="20" width="7" height="2" rx="1" fill="#505050"/>
+              <rect x="52" y="20" width="7" height="2" rx="1" fill="#505050"/>
+              <!-- eyes -->
+              <circle cx="44.5" cy="25.5" r="2.5" fill="#282828"/>
+              <circle cx="55.5" cy="25.5" r="2.5" fill="#282828"/>
+              <!-- nose dot -->
+              <circle cx="50" cy="30.5" r="1.3" fill="#DDA880"/>
+              <!-- mouth -->
+              <path d="M47 35 Q50 37 53 35" stroke="#C09070" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+            </svg>
+            <div class="nb-admin-star">★</div>
+          </div>
+          <div class="nb-name">Mauricio</div>
+          <div class="nb-cond">59 años · HTA</div>
+          <div class="nb-meta"><span class="nb-admin-chip">Administrador</span></div>
+          <div class="nb-meta" style="margin-top:5px"><span class="nb-chip">8 docs</span><span class="nb-sync">Ayer</span></div>
+        </div>
+        <div class="nbcard nb-add">
+          <div class="nb-add-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+          <div class="nb-add-lbl">Agregar perfil</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PROFILE ══ -->
+  <div class="screen" id="s-profile">
+    <div class="prof-hdr">
+      <button class="back-btn" onclick="go('s-family')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="prof-info">
+        <div class="prof-name" id="ph-name">Luka Levandovsky</div>
+        <div class="prof-cond" id="ph-sub">Diabetes Tipo 1</div>
+      </div>
+      <div class="prof-av" id="ph-av">LL</div>
+    </div>
+
+    <div class="tab-content">
+      <!-- TAB PERFIL -->
+      <div class="tab active" id="tab-perfil">
+        <div class="cred-wrap">
+          <div class="cred">
+            <div class="cred-bubble1"></div><div class="cred-bubble2"></div>
+            <div class="cred-top">
+              <div class="cred-brand">
+                <svg width="16" height="16" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.8)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.8)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+                Salutia
+              </div>
+              <button class="cred-share" onclick="openShare()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              </button>
+            </div>
+            <div class="cred-chip"><div class="chip-c"></div><div class="chip-c"></div><div class="chip-c"></div><div class="chip-c"></div></div>
+            <div class="cred-name" id="c-name">Luka Levandovsky</div>
+            <div class="cred-meta" id="c-meta">DNI 42.156.789 · 15/03/1999</div>
+            <div class="cred-grid" id="c-grid"></div>
+          </div>
+        </div>
+        <div class="psec" style="margin-top:16px">
+          <div class="psec-h">Información personal</div>
+          <div class="prow"><span class="prow-l">Nombre</span><span class="prow-r" id="r-name">—</span></div>
+          <div class="prow"><span class="prow-l">Fecha nac.</span><span class="prow-r" id="r-birth">—</span></div>
+          <div class="prow"><span class="prow-l">DNI</span><span class="prow-r" id="r-dni">—</span></div>
+          <div class="prow"><span class="prow-l">Grupo sanguíneo</span><span class="prow-r" id="r-blood">—</span></div>
+          <div class="prow"><span class="prow-l">Obra social</span><span class="prow-r" id="r-os">—</span></div>
+        </div>
+        <div class="psec">
+          <div class="psec-h">Condiciones activas</div>
+          <div class="prow"><span class="prow-l">Diagnóstico</span><span class="prow-r" id="r-dx">—</span></div>
+          <div class="prow"><span class="prow-l">Desde</span><span class="prow-r" id="r-since">—</span></div>
+        </div>
+        <div class="psec" style="margin-bottom:4px">
+          <div class="psec-h">Emergencia</div>
+          <div class="prow"><span class="prow-l">Contacto</span><span class="prow-r" id="r-emerg">—</span></div>
+          <div class="prow"><span class="prow-l">Teléfono</span><span class="prow-r">+54 11 4523-8821</span></div>
+        </div>
+      </div>
+
+      <!-- TAB MI SALUD -->
+      <div class="tab" id="tab-salud">
+        <!-- Hub principal -->
+        <div id="salud-hub"></div>
+        <!-- Sub: Score de salud (existing buildSalud output) -->
+        <div id="salud-sub-score" style="display:none">
+          <div class="salud-subhdr">
+            <button class="salud-back" onclick="showSaludSection('hub')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+            <div class="salud-sub-ttl">Score de salud</div>
+          </div>
+          <div id="salud-content"></div>
+        </div>
+        <!-- Sub: Plan de medicación -->
+        <div id="salud-sub-meds" style="display:none">
+          <div class="salud-subhdr">
+            <button class="salud-back" onclick="showSaludSection('hub')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+            <div class="salud-sub-ttl">Plan de medicación</div>
+          </div>
+          <div id="meds-content"></div>
+        </div>
+        <!-- Sub: Vacunas -->
+        <div id="salud-sub-vac" style="display:none">
+          <div class="salud-subhdr">
+            <button class="salud-back" onclick="showSaludSection('hub')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+            <div class="salud-sub-ttl">Vacunas</div>
+          </div>
+          <div id="vac-content"></div>
+        </div>
+      </div>
+
+      <!-- TAB SALU -->
+      <div class="tab" id="tab-salu">
+        <div class="chat-header">
+          <div class="chat-header-inner">
+            <div class="salu-av">
+              <svg width="18" height="18" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+            </div>
+            <div class="salu-name-wrap">
+              <div class="salu-title" style="font-size:17px;font-weight:700">Salu</div>
+              <div class="salu-subtitle" id="src-count">4 fuentes activas</div>
+            </div>
+          </div>
+          <div class="src-label">Fuentes activas</div>
+          <div class="src-scroll" id="src-row"></div>
+        </div>
+        <div class="msgs" id="msgs" style="background-color:rgb(238,249,255)"></div>
+        <div class="chat-bar">
+          <input class="chat-inp" id="cinp" placeholder="Preguntale a Salu…" onkeydown="if(event.key==='Enter')send()">
+          <button class="send-btn" onclick="send()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </button>
+        </div>
+        <button class="salu-plus" onclick="openRegister()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>
+
+      <!-- TAB HISTORIAL -->
+      <div class="tab" id="tab-historial">
+        <div class="hist-top">
+          <div class="fchip on" onclick="filter(this,'all')">Todo</div>
+          <div class="fchip" onclick="filter(this,'lab')">Laboratorio</div>
+          <div class="fchip" onclick="filter(this,'con')">Consultas</div>
+          <div class="fchip" onclick="filter(this,'vac')">Vacunas</div>
+          <div class="fchip" onclick="filter(this,'med')">Medicación</div>
+        </div>
+        <div class="hlist" id="hlist"></div>
+      </div>
+
+      <!-- TAB CONFIG -->
+      <div class="tab" id="tab-config">
+        <div class="cfg-hero">
+          <div class="cfg-av" id="cfg-av">LL</div>
+          <div>
+            <div class="cfg-name" id="cfg-name">Luka Levandovsky</div>
+            <div class="cfg-email">luka@salutia.com</div>
+          </div>
+        </div>
+        <div class="cfg-sec">
+          <div class="cfg-row">
+            <div class="cfg-ico" style="background:rgba(0,119,182,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="cfg-txt"><div class="cfg-row-ttl">Perfil y datos</div><div class="cfg-row-sub">Información personal</div></div>
+            <svg class="cfg-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-ico" style="background:rgba(0,180,216,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+            <div class="cfg-txt"><div class="cfg-row-ttl">Notificaciones</div><div class="cfg-row-sub">Recordatorios y alertas</div></div>
+            <svg class="cfg-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="cfg-row">
+            <div class="cfg-ico" style="background:rgba(34,197,94,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="cfg-txt"><div class="cfg-row-ttl">Privacidad y seguridad</div><div class="cfg-row-sub">PIN, biométrico, permisos</div></div>
+            <svg class="cfg-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div class="cfg-sec">
+          <div class="cfg-row">
+            <div class="cfg-ico" style="background:rgba(139,92,246,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="cfg-txt"><div class="cfg-row-ttl">Grupo familiar</div><div class="cfg-row-sub">Gestioná perfiles y accesos</div></div>
+            <svg class="cfg-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+          <div class="cfg-row" onclick="openModal('ov-plan')">
+            <div class="cfg-ico" style="background:rgba(245,158,11,.1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+            <div class="cfg-txt"><div class="cfg-row-ttl">Plan y suscripción</div><div class="cfg-row-sub">Salutia Pro · Activo</div></div>
+            <svg class="cfg-arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+          </div>
+        </div>
+        <div style="padding:20px 16px">
+          <button style="width:100%;padding:14px;border-radius:14px;border:1.5px solid #E5ECF4;background:#fff;color:#EF4444;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav (5 tabs) -->
+    <div class="bnav">
+      <!-- Perfil -->
+      <div class="ni active" id="n-perfil" onclick="tab('perfil')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-linecap="round">
+          <circle cx="12" cy="8" r="4" stroke="#0077B6" stroke-width="1.75" fill="none" class="nav-s"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#0077B6" stroke-width="1.75" fill="none" class="nav-s"/>
+        </svg>
+        <div class="ni-lbl">Perfil</div>
+        <div class="ni-dot"></div>
+      </div>
+      <!-- Mi Salud -->
+      <div class="ni" id="n-salud" onclick="tab('salud')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke="#9AA3AD" stroke-width="1.75" fill="none" class="nav-s"/>
+        </svg>
+        <div class="ni-lbl">Mi Salud</div>
+        <div class="ni-dot"></div>
+      </div>
+      <!-- SALU FAB (center) -->
+      <div class="ni-salu-slot" onclick="tab('salu')">
+        <div class="salu-fab" id="salu-fab-btn" style="width:50px;height:50px;border-style:none;align-items:center">
+          <svg width="30" height="30" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.8" fill="none"/>
+            <path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="salu-fab-lbl" id="salu-fab-lbl" style="font-size:9.5px;font-weight:700;text-align:center">Salu</div>
+      </div>
+      <!-- Historial -->
+      <div class="ni" id="n-historial" onclick="tab('historial')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-linecap="round">
+          <rect x="5" y="3" width="14" height="18" rx="2" stroke="#9AA3AD" stroke-width="1.75" fill="none" class="nav-s"/>
+          <path d="M9 8h6M9 12h6M9 16h4" stroke="#9AA3AD" stroke-width="1.6" class="nav-s"/>
+        </svg>
+        <div class="ni-lbl">Historial</div>
+        <div class="ni-dot"></div>
+      </div>
+      <!-- Config -->
+      <div class="ni" id="n-config" onclick="tab('config')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke-linecap="round">
+          <circle cx="12" cy="12" r="3" stroke="#9AA3AD" stroke-width="1.75" fill="none" class="nav-s"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="#9AA3AD" stroke-width="1.75" fill="none" class="nav-s"/>
+        </svg>
+        <div class="ni-lbl">Ajustes</div>
+        <div class="ni-dot"></div>
+      </div>
+    </div>
+  </div><!-- /s-profile -->
+
+  <!-- ══ SHARE MODAL ══ -->
+  <div class="overlay" id="ov-share" onclick="closeModal('ov-share')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div class="sheet-ttl">Credencial médica</div>
+      <div class="sheet-sub">Compartí tu resumen de salud de forma segura</div>
+      <div class="scard">
+        <div class="sc-name" id="sh-name">Luka Levandovsky</div>
+        <div class="sc-id" id="sh-id">DNI 42.156.789 · O+ · Salutia</div>
+        <div class="sc-grid" id="sh-grid"></div>
+      </div>
+      <div class="sactions">
+        <button class="sbtn sbtn-copy" id="copy-btn" onclick="copyLink()">Copiar link</button>
+        <button class="sbtn sbtn-share" onclick="shareIt()">Compartir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DOC ACTION MODAL ══ -->
+  <div class="overlay" id="ov-doc" onclick="closeModal('ov-doc')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <div class="sheet-handle"></div>
+      <div class="doc-preview">
+        <div class="doc-prev-ico" id="doc-ico"></div>
+        <div><div class="doc-prev-name" id="doc-name">—</div><div class="doc-prev-date" id="doc-date">—</div></div>
+      </div>
+      <div class="doc-actions">
+        <button class="doc-act-btn doc-act-share" onclick="closeModal('ov-doc')">
+          <div class="doc-act-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></div>
+          <div class="doc-act-lbl">Compartir</div>
+        </button>
+        <button class="doc-act-btn doc-act-salu" onclick="consultarSalu()">
+          <div class="doc-act-ico"><svg width="20" height="20" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></div>
+          <div class="doc-act-lbl">Consultar con Salu</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REGISTER MODAL ══ -->
+  <div class="overlay" id="ov-reg" onclick="closeModal('ov-reg')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <button class="sheet-close" onclick="closeModal('ov-reg')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-ttl">¿Qué querés registrar?</div>
+      <div class="sheet-sub">Seleccioná el tipo de información</div>
+      <div class="reg-grid">
+        <div class="reg-card reg-card-blue" onclick="closeModal('ov-reg')">
+          <div class="reg-ico reg-ico-b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+          <div class="reg-name">Documento</div>
+          <div class="reg-sub">Estudios, análisis, informes y resultados clínicos</div>
+          <div class="reg-arr reg-arr-b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+        <div class="reg-card reg-card-orange" onclick="closeModal('ov-reg')">
+          <div class="reg-ico reg-ico-o"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+          <div class="reg-name">Recordatorio</div>
+          <div class="reg-sub">Turnos, medicación, controles y seguimientos</div>
+          <div class="reg-arr reg-arr-o"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+        </div>
+      </div>
+      <div class="reg-card-wide reg-card-purple" onclick="closeModal('ov-reg')" style="margin-bottom:8px">
+        <div class="reg-ico reg-ico-p" style="margin-bottom:0;flex-shrink:0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+        <div style="flex:1">
+          <div class="reg-name">Plan de medicación</div>
+          <div class="reg-sub" style="margin-top:2px">Registrá tu medicación activa y configurá recordatorios de toma diaria</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="reg-card-wide" style="margin-bottom:8px;background:rgba(34,197,94,.06);border:1.5px solid rgba(34,197,94,.18)" onclick="closeModal('ov-reg');openVacForm()">
+        <div class="reg-ico" style="margin-bottom:0;flex-shrink:0;background:rgba(34,197,94,.12)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+        <div style="flex:1">
+          <div class="reg-name">Agregar vacuna</div>
+          <div class="reg-sub" style="margin-top:2px">Registrá una vacuna aplicada y mantené tu libreta al día</div>
+        </div>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ VAC FORM MODAL ══ -->
+  <div class="overlay" id="ov-vac" onclick="closeModal('ov-vac')">
+    <div class="sheet" onclick="event.stopPropagation()" style="max-height:92%;overflow-y:auto">
+      <button class="sheet-close" onclick="closeModal('ov-vac')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-ttl">Agregar vacuna</div>
+      <div class="sheet-sub">Registrá una vacuna aplicada</div>
+      <div class="form-field">
+        <label class="form-lbl">Vacuna</label>
+        <select class="form-inp" id="vf-name">
+          <option value="">Seleccioná la vacuna</option>
+          <option>COVID-19 (Bivalente)</option>
+          <option>Influenza</option>
+          <option>Hepatitis B</option>
+          <option>Fiebre Amarilla</option>
+          <option>Triple Bacteriana Acelular (dTpa)</option>
+          <option>Meningococo ACWY</option>
+          <option>Varicela</option>
+          <option>Sarampión, Rubéola, Paperas (SRP)</option>
+          <option>Otra</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-lbl">Dosis</label>
+        <select class="form-inp" id="vf-dose">
+          <option>1° dosis</option>
+          <option>2° dosis</option>
+          <option>3° dosis</option>
+          <option>Refuerzo anual</option>
+          <option>Dosis única</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-lbl">Fecha de aplicación</label>
+        <input class="form-inp" type="date" id="vf-date">
+      </div>
+      <div class="form-field">
+        <label class="form-lbl">Centro / Vacunatorio (opcional)</label>
+        <input class="form-inp" type="text" id="vf-place" placeholder="Ej: Hospital Italiano, Vacunatorio Central">
+      </div>
+      <div class="form-field">
+        <label class="form-lbl">Foto del certificado (opcional)</label>
+        <input type="file" id="vf-photo" accept="image/*" style="display:none" onchange="previewVacPhoto(this)">
+        <div onclick="document.getElementById('vf-photo').click()" style="border:1.5px dashed #D0D5DD;border-radius:12px;padding:16px;text-align:center;cursor:pointer;background:#FAFBFC;transition:border-color .15s" id="vac-photo-area">
+          <div id="vac-photo-preview" style="display:none;flex-direction:column;align-items:center">
+            <img id="vac-photo-img" style="max-width:100%;max-height:120px;border-radius:8px;object-fit:cover;display:block">
+            <div style="font-size:11px;color:var(--t3);margin-top:6px;font-family:'Inter',sans-serif">Tocá para cambiar la foto</div>
+          </div>
+          <div id="vac-photo-placeholder" style="display:flex;flex-direction:column;align-items:center">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#B0B8C8" stroke-width="1.6" stroke-linecap="round" style="margin-bottom:7px"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <div style="font-size:13px;font-weight:600;color:var(--t2);font-family:'Inter',sans-serif">Agregar foto del carnet</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:3px;font-family:'Inter',sans-serif">JPG o PNG · Máx. 10 MB</div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-in" style="margin-top:16px;border-radius:14px" onclick="saveVac()">Guardar vacuna</button>
+    </div>
+  </div>
+
+  <!-- ══ PHOTO VIEWER ══ -->
+  <div class="overlay" id="ov-photo-viewer" onclick="closeModal('ov-photo-viewer')">
+    <div class="sheet" onclick="event.stopPropagation()" style="max-height:90%;overflow-y:auto">
+      <button class="sheet-close" onclick="closeModal('ov-photo-viewer')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div id="pv-title" class="sheet-ttl" style="margin-bottom:4px"></div>
+      <div id="pv-sub" class="sheet-sub" style="margin-bottom:16px"></div>
+      <div style="padding:0 20px 28px">
+        <img id="pv-img" style="width:100%;border-radius:14px;object-fit:contain;max-height:55vh;display:none">
+        <div id="pv-mock" style="display:none;background:#F0F4FF;border-radius:14px;padding:28px 20px;text-align:center">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#1349C5" stroke-width="1.4" stroke-linecap="round" style="margin:0 auto 12px;display:block"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+          <div style="font-size:14px;font-weight:700;color:#1349C5;font-family:'Inter',sans-serif">Certificado de vacunación</div>
+          <div id="pv-mock-name" style="font-size:12px;color:var(--t2);margin-top:4px;font-family:'Inter',sans-serif"></div>
+          <div style="margin-top:16px;padding:12px;background:#fff;border-radius:10px;border:1px solid #D0DEFF">
+            <div style="font-size:11px;color:var(--t3);margin-bottom:4px;font-family:'Inter',sans-serif">MINISTERIO DE SALUD</div>
+            <div style="font-size:13px;font-weight:600;color:var(--t1);font-family:'Inter',sans-serif">Registro Nacional de Vacunación</div>
+            <div style="height:1px;background:#EEF2F7;margin:10px 0"></div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t2);font-family:'Inter',sans-serif">
+              <span>Dosis aplicada</span><span style="font-weight:700;color:var(--t1)">✓ Verificado</span>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--t3);margin-top:10px;font-family:'Inter',sans-serif">Vista de demostración — en la app real se muestra la foto original</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PLAN MODAL ══ -->
+  <div class="overlay" id="ov-plan" onclick="closeModal('ov-plan')">
+    <div class="sheet" onclick="event.stopPropagation()" style="max-height:92%;overflow-y:auto">
+      <button class="sheet-close" onclick="closeModal('ov-plan')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-ttl">Plan y suscripción</div>
+      <div class="sheet-sub">Tu plan actual: <strong>Salutia Pro</strong> · Próxima renovación 15 may 2026</div>
+
+      <!-- Plan: Free -->
+      <div class="plan-card inactive" onclick="selectPlan(this)">
+        <div class="plan-top">
+          <div>
+            <div class="plan-name">Free</div>
+            <div class="plan-features">50 documentos · 10 preguntas/día con Salu · 3 cuentas</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="plan-price">$0</div>
+            <div class="plan-radio"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan: Pro -->
+      <div class="plan-card active recommended" onclick="selectPlan(this)">
+        <div class="plan-top">
+          <div style="padding-top:12px">
+            <div class="plan-name">Pro</div>
+            <div class="plan-features">150 documentos · 30 preguntas/día con Salu · 4 cuentas</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding-top:12px">
+            <div class="plan-price">$4<span>/mes</span></div>
+            <div class="plan-radio">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan: Family -->
+      <div class="plan-card inactive" onclick="selectPlan(this)">
+        <div class="plan-top">
+          <div>
+            <div class="plan-name">Family</div>
+            <div class="plan-features">1.000 documentos · 100 preguntas/día con Salu · 6 cuentas</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="plan-price">$10<span>/mes</span></div>
+            <div class="plan-radio"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plan: Preventive -->
+      <div class="plan-card inactive" onclick="selectPlan(this)">
+        <div class="plan-top">
+          <div>
+            <div class="plan-name">Preventive</div>
+            <div class="plan-features">Sin límite de documentos · Salu sin límite diario · Cuentas ilimitadas</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="plan-price">$20<span>/mes</span></div>
+            <div class="plan-radio"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Método de pago -->
+      <div style="margin-top:16px;margin-bottom:8px;font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.7px">Método de pago</div>
+      <div style="background:var(--off);border-radius:16px;padding:4px 14px">
+        <div class="pay-row">
+          <div class="pay-ico" style="background:#1A1F71">
+            <svg width="28" height="18" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#1A1F71"/><text x="4" y="16" font-size="10" font-weight="800" fill="white" font-family="Inter">VISA</text></svg>
+          </div>
+          <div class="pay-info">
+            <div class="pay-name">Visa •••• 4521</div>
+            <div class="pay-sub">Vence 08/27</div>
+          </div>
+          <div class="pay-default">Principal</div>
+        </div>
+        <div class="pay-row" onclick="openModal('ov-addpay')">
+          <div class="pay-ico" style="background:var(--off)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="pay-info">
+            <div class="pay-name" style="color:var(--blue)">Agregar método de pago</div>
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+      </div>
+
+      <button style="width:100%;padding:15px;border-radius:14px;background:#1349C5;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;margin-top:16px;box-shadow:0 4px 16px rgba(19,73,197,.3)" onclick="closeModal('ov-plan')">Confirmar plan</button>
+    </div>
+  </div>
+
+  <!-- ══ ADD PAYMENT MODAL ══ -->
+  <div class="overlay" id="ov-addpay" onclick="closeModal('ov-addpay')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <button class="sheet-close" onclick="closeModal('ov-addpay')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div class="sheet-ttl">Agregar tarjeta</div>
+      <div class="sheet-sub">Tus datos de pago están encriptados y seguros.</div>
+
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <div style="flex:1;padding:13px 14px;background:var(--off);border-radius:14px;border:1.5px solid var(--border);font-size:13px;color:var(--t3);font-family:Inter">Número de tarjeta</div>
+        <div style="width:64px;padding:13px 10px;background:var(--off);border-radius:14px;border:1.5px solid var(--border);font-size:13px;color:var(--t3);font-family:Inter;text-align:center">MM/AA</div>
+        <div style="width:56px;padding:13px 10px;background:var(--off);border-radius:14px;border:1.5px solid var(--border);font-size:13px;color:var(--t3);font-family:Inter;text-align:center">CVV</div>
+      </div>
+      <div style="padding:13px 14px;background:var(--off);border-radius:14px;border:1.5px solid var(--border);font-size:13px;color:var(--t3);margin-bottom:14px;font-family:Inter">Nombre en la tarjeta</div>
+
+      <div style="display:flex;gap:10px;margin-bottom:18px">
+        <div style="flex:1;padding:11px 14px;background:var(--off);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--border)">
+          <svg width="22" height="14" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#1A1F71"/><text x="4" y="16" font-size="10" font-weight="800" fill="white" font-family="Inter">VISA</text></svg>
+          <span style="font-size:11px;color:var(--t2);font-family:Inter">Visa</span>
+        </div>
+        <div style="flex:1;padding:11px 14px;background:var(--off);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--border)">
+          <svg width="22" height="14" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#EB001B"/><circle cx="15" cy="12" r="7" fill="#EB001B" opacity=".9"/><circle cx="23" cy="12" r="7" fill="#F79E1B" opacity=".9"/></svg>
+          <span style="font-size:11px;color:var(--t2);font-family:Inter">Mastercard</span>
+        </div>
+        <div style="flex:1;padding:11px 14px;background:var(--off);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--border)">
+          <svg width="22" height="14" viewBox="0 0 38 24"><rect width="38" height="24" rx="4" fill="#000"/><text x="5" y="17" font-size="9" font-weight="800" fill="white" font-family="Inter">AMEX</text></svg>
+          <span style="font-size:11px;color:var(--t2);font-family:Inter">Amex</span>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;padding:10px 14px;background:rgba(34,197,94,.06);border-radius:12px;border:1px solid rgba(34,197,94,.15)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span style="font-size:11.5px;color:#22C55E;font-family:Inter;font-weight:600">Pago seguro · Encriptado con TLS 1.3</span>
+      </div>
+
+      <button style="width:100%;padding:15px;border-radius:14px;background:#1349C5;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 16px rgba(19,73,197,.3)" onclick="closeModal('ov-addpay')">Agregar tarjeta</button>
+    </div>
+  </div>
+
+  <!-- ══ ESTUDIO UPLOAD MODAL ══ -->
+  <div class="overlay" id="ov-estudio" onclick="closeModal('ov-estudio')">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <button class="sheet-close" onclick="closeModal('ov-estudio')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div class="sheet-handle"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+        <div style="width:40px;height:40px;border-radius:13px;background:rgba(19,73,197,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1349C5" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <div>
+          <div class="sheet-ttl" style="margin-bottom:0">Cargar estudio</div>
+          <div style="font-size:12px;color:var(--t2);margin-top:1px" id="estudio-upload-name">—</div>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.5">Subí el resultado para que Salu lo analice y lo sume a tu historial.</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button onclick="closeModal('ov-estudio')" style="width:100%;padding:16px;border-radius:16px;background:#FF5C1A;color:#fff;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 16px rgba(255,92,26,.3)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          Sacar foto
+        </button>
+        <button onclick="closeModal('ov-estudio')" style="width:100%;padding:16px;border-radius:16px;background:var(--off);color:var(--navy);font-size:15px;font-weight:700;border:1.5px solid #DDE3EC;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#023E8A" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Subir archivo (PDF / imagen)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /inner -->
+</div><!-- /frame -->
+
+<script>
+/* ── DATA ── */
+const P = {
+  luka:{
+    name:'Luka Levandovsky',initials:'LL',sub:'Diabetes Tipo 1',score:68,
+    avatarBg:'#1349C5',
+    cred:{name:'Luka Levandovsky',meta:'DNI 42.156.789 · 15/03/1999',
+      grid:[['Grupo','O+'],['Condición','Diabetes T1'],['Medicación','Novorapid · Lantus'],['Alergias','Ninguna']]},
+    rows:{name:'Luka Levandovsky',birth:'15/03/1999',dni:'42.156.789',blood:'O+',os:'OSDE 410',dx:'Diabetes Tipo 1',since:'2018',emerg:'Mauricio Levandovsky'},
+    share:{name:'Luka Levandovsky',id:'DNI 42.156.789 · O+ · Salutia',
+      grid:[['Condición','Diabetes Tipo 1'],['Medicación activa','Novorapid · Lantus'],['Alergias','Ninguna conocida'],['Emergencia','+54 11 4523-8821']]},
+    sources:[{c:'#00C9E0',t:"Análisis Abr '26"},{c:'#F59E0B',t:"HbA1c Mar '26"},{c:'#22C55E',t:"Endocrino Ene '26"},{c:'#8B5CF6',t:'Receta insulina'}],
+    insights:[
+      {color:'#EF4444',bg:'rgba(239,68,68,.1)',icon:'⬆',ttl:'Glucemia elevada',sub:'186 mg/dL · por encima de rango',badge:'Revisar',badgeColor:'#EF4444',badgeBg:'rgba(239,68,68,.1)'},
+      {color:'#F59E0B',bg:'rgba(245,158,11,.1)',icon:'📋',ttl:'HbA1c pendiente',sub:'Último análisis hace 3 meses',badge:'Urgente',badgeColor:'#F59E0B',badgeBg:'rgba(245,158,11,.1)'},
+      {color:'#22C55E',bg:'rgba(34,197,94,.1)',icon:'✓',ttl:'Vacuna al día',sub:'Antigripal · ene 2026',badge:'OK',badgeColor:'#22C55E',badgeBg:'rgba(34,197,94,.1)'},
+    ],
+    recomendaciones:[
+      {icon:'💉',ttl:'Revisá tu dosis de insulina',sub:'Tu glucemia promedio subió 12% este mes. Con 3 registros por encima de 170 mg/dL, podría ser momento de ajustar con tu endocrinóloga.'},
+      {icon:'👁',ttl:'Agendá tu fondo de ojo',sub:'No tenés registro de control de retina. Para T1D se recomienda anualmente — ya pasó más de un año desde tu diagnóstico activo.'},
+      {icon:'📊',ttl:'Cargá tu próximo hemograma',sub:'Salu detectó que tu último perfil lipídico fue hace 6 meses. Junto al próximo análisis de glucemia, aprovechá para pedirlo.'},
+    ],
+    scoreLabel:'Necesita atención',
+    scoreColor:'#F59E0B',
+    estudios:[
+      {name:'Hemoglobina glicosilada',abbr:'HbA1c',done:true,date:'Mar 2026',icon:'lab',nextDue:'Jun 2026',daysLeft:62},
+      {name:'Glucemia en ayunas',abbr:'Glucemia',done:true,date:'Abr 2026',icon:'lab',nextDue:'Jul 2026',daysLeft:91},
+      {name:'Perfil lipídico',abbr:'Colesterol',done:false,date:'Pendiente',icon:'lab'},
+      {name:'Microalbuminuria',abbr:'Riñón',done:false,date:'Pendiente',icon:'lab'},
+      {name:'Fondo de ojo',abbr:'Retina',done:false,date:'Pendiente',icon:'eye'},
+      {name:'Control endocrinología',abbr:'Endocrino',done:true,date:'Ene 2026',icon:'con',nextDue:'Jul 2026',daysLeft:75},
+      {name:'Vacuna antigripal',abbr:'Gripe',done:true,date:'Ene 2026',icon:'vac',nextDue:'Abr 2027',daysLeft:365},
+      {name:'TSH (tiroides)',abbr:'Tiroides',done:false,date:'Pendiente',icon:'lab'},
+    ],
+    meds:[
+      {time:'Desayuno',icon:'sunrise',iconBg:'rgba(245,158,11,.1)',pills:[{name:'Novorapid',dose:'8 UI · rápida'}]},
+      {time:'Almuerzo',icon:'sun',iconBg:'rgba(0,180,216,.1)',pills:[{name:'Novorapid',dose:'8 UI · rápida'}]},
+      {time:'Cena',icon:'moon',iconBg:'rgba(0,119,182,.1)',pills:[{name:'Novorapid',dose:'8 UI · rápida'}]},
+      {time:'Noche',icon:'night',iconBg:'rgba(139,92,246,.1)',pills:[{name:'Lantus',dose:'22 UI · basal'}]},
+    ],
+    hist:[
+      {mo:'Abril 2026',docs:[{t:'lab',n:'Análisis de sangre completo',d:'15 abr 2026 · Biosintex',b:'b-r'},{t:'con',n:'Control endocrinología',d:'08 abr 2026 · Dra. Martínez',b:'b-y'}]},
+      {mo:'Marzo 2026',docs:[{t:'lab',n:'Hemoglobina glicosilada',d:'10 mar 2026 · Stamboulian',b:'b-y'},{t:'con',n:'Consulta endocrinología',d:'02 mar 2026 · Dra. Martínez',b:'b-g'}]},
+      {mo:'Enero 2026',docs:[{t:'vac',n:'Vacuna antigripal',d:'20 ene 2026 · CEMIC',b:'b-g'}]},
+      {mo:'Noviembre 2025',docs:[{t:'lab',n:'Panel metabólico',d:'15 nov 2025 · Wernicke',b:'b-g'},{t:'med',n:'Receta insulina Novorapid',d:'10 nov 2025 · Dr. López',b:'b-g'}]}
+    ],
+    chat:{
+      intro:'Hola Luka 👋 Soy **Salu**, tu agente de salud personal. Tengo acceso a tus 4 documentos más recientes y puedo ayudarte a:\n• Entender tus resultados y valores\n• Responder dudas sobre tu salud\n• Recordarte cargar nueva información\n• Orientarte en el uso de Salutia\n\n¿Por dónde empezamos?',
+      r:[
+        {k:['gluc','azucar','sangre','186'],r:'Tu última glucemia fue **186 mg/dL** (15 abr). Está por encima del rango objetivo de 70–130 mg/dL. En marzo tenías 162 mg/dL — hay una tendencia al alza. Te recomiendo controlarte antes de dormir.',s:"Análisis Abr '26"},
+        {k:['insul','novorapid','lantus'],r:'Según tu receta activa:\n• **Novorapid** 8 UI antes de desayuno, almuerzo y cena\n• **Lantus** 22 UI antes de dormir\n\n¿Querés cargar la toma de hoy?',s:'Receta insulina'},
+        {k:['hba1c','hemoglob','glicos'],r:'Tu última HbA1c fue **7.2%** en marzo 2026. El objetivo para T1D es <7%. Estás levemente por encima. La Dra. Martínez lo marcó como "a monitorear". Ya pasaron 3 meses — ¡es buen momento para repetirla!',s:"HbA1c Mar '26"},
+        {k:['vacuna'],r:'Tenés la antigripal aplicada en enero 2026. Próxima recomendada: otoño 2026. No hay registro de vacuna antineumocócica. ¿Querés que te lo recuerde?',s:'Historial vacunas'},
+        {k:['tendencia','historial','evolucion'],r:'En los últimos 3 meses tus glucemias muestran variabilidad alta. El valor más bajo fue 98 mg/dL y el más alto 210 mg/dL. Tu HbA1c subió de 6.8% a 7.2%. Te recomendaría agendar un control con tu endocrinóloga.',s:"Análisis Abr '26"},
+        {k:['cargar','subir','documento','foto'],r:'Para cargar un nuevo documento tocá el **+** en esta pantalla. Podés subir estudios, análisis, informes clínicos o fotos de recetas. Salu los va a analizar y te va a resumir los puntos más importantes.',s:null},
+        {k:['app','usar','funciona','como'],r:'Salutia es tu historial médico personal. Podés:\n• 📋 Cargar y organizar documentos médicos\n• 💊 Registrar tu medicación y recordatorios\n• 👨‍👩‍👧 Gestionar el grupo familiar\n• 🤖 Consultarme cualquier duda sobre tu salud',s:null},
+      ],
+      def:'Podés preguntarme sobre tus glucemias, insulina, HbA1c, vacunas, tendencias o cómo usar Salutia. ¡Estoy aquí para ayudarte!'
+    }
+  },
+  mauricio:{
+    name:'Mauricio Levandovsky',initials:'ML',sub:'Hipertensión arterial',score:61,
+    avatarBg:'#0B35A8',
+    cred:{name:'Mauricio Levandovsky',meta:'DNI 18.432.567 · 22/07/1965',
+      grid:[['Grupo','A+'],['Condición','HTA'],['Medicación','Enalapril 10mg'],['Alergias','Aspirina']]},
+    rows:{name:'Mauricio Levandovsky',birth:'22/07/1965',dni:'18.432.567',blood:'A+',os:'Swiss Medical',dx:'Hipertensión arterial',since:'2015',emerg:'Luka Levandovsky'},
+    share:{name:'Mauricio Levandovsky',id:'DNI 18.432.567 · A+ · Salutia',
+      grid:[['Condición','Hipertensión arterial'],['Medicación activa','Enalapril 10mg'],['Alergias','Aspirina'],['Emergencia','+54 11 4523-8821']]},
+    sources:[{c:'#EF4444',t:"Presión Feb '26"},{c:'#F59E0B',t:"Colesterol Dic '25"},{c:'#22C55E',t:"Cardio Mar '26"},{c:'#0077B6',t:'Receta Enalapril'}],
+    insights:[
+      {color:'#F59E0B',bg:'rgba(245,158,11,.1)',icon:'⚠',ttl:'Presión en límite',sub:'145/92 mmHg · objetivo <140/90',badge:'Monitorear',badgeColor:'#F59E0B',badgeBg:'rgba(245,158,11,.1)'},
+      {color:'#EF4444',bg:'rgba(239,68,68,.1)',icon:'⬆',ttl:'LDL elevado',sub:'142 mg/dL · objetivo <100 para HTA',badge:'Revisar',badgeColor:'#EF4444',badgeBg:'rgba(239,68,68,.1)'},
+      {color:'#22C55E',bg:'rgba(34,197,94,.1)',icon:'✓',ttl:'Cardio al día',sub:'Control realizado · mar 2026',badge:'OK',badgeColor:'#22C55E',badgeBg:'rgba(34,197,94,.1)'},
+    ],
+    recomendaciones:[
+      {icon:'🩺',ttl:'Medí tu presión dos veces al día',sub:'Salu detectó variabilidad en tus últimas 3 mediciones. Cargar registros diarios esta semana ayudaría a ajustar tu tratamiento con el Dr. Ramírez.'},
+      {icon:'🧪',ttl:'Pedí creatinina en el próximo análisis',sub:'Con Enalapril a largo plazo, el control de función renal es clave. No tenés registro de creatinina en los últimos 12 meses.'},
+      {icon:'📉',ttl:'Tu LDL sigue alto — considerá estatina',sub:'El Dr. Ramírez lo mencionó en marzo. Tu próximo control de cardiología es el momento indicado para evaluar el tratamiento.'},
+    ],
+    scoreLabel:'Requiere seguimiento',
+    scoreColor:'#F59E0B',
+    estudios:[
+      {name:'Presión arterial',abbr:'Presión',done:true,date:'Mar 2026',icon:'lab',nextDue:'May 2026',daysLeft:14},
+      {name:'Perfil lipídico',abbr:'Colesterol',done:true,date:'Dic 2025',icon:'lab',nextDue:'Jun 2026',daysLeft:45},
+      {name:'Control cardiología',abbr:'Cardiólogo',done:true,date:'Mar 2026',icon:'con',nextDue:'Sep 2026',daysLeft:150},
+      {name:'Creatinina / riñón',abbr:'Riñón',done:false,date:'Pendiente',icon:'lab'},
+      {name:'Electrocardiograma',abbr:'ECG',done:false,date:'Pendiente',icon:'lab'},
+      {name:'Vacuna antigripal',abbr:'Gripe',done:true,date:'Oct 2025',icon:'vac',nextDue:'Abr 2027',daysLeft:365},
+      {name:'Ecocardiograma',abbr:'Eco',done:false,date:'Pendiente',icon:'lab'},
+    ],
+    meds:[
+      {time:'Mañana',icon:'sunrise',iconBg:'rgba(0,119,182,.1)',pills:[{name:'Enalapril 10mg',dose:'1 comprimido · antihipertensivo'}]},
+    ],
+    hist:[
+      {mo:'Marzo 2026',docs:[{t:'con',n:'Consulta cardiología',d:'18 mar 2026 · Dr. Ramírez',b:'b-g'},{t:'lab',n:'Control presión arterial',d:'05 mar 2026 · CEMIC',b:'b-y'}]},
+      {mo:'Febrero 2026',docs:[{t:'lab',n:'Análisis de sangre',d:'12 feb 2026 · Biosintex',b:'b-y'}]},
+      {mo:'Diciembre 2025',docs:[{t:'lab',n:'Perfil lipídico',d:'10 dic 2025 · Wernicke',b:'b-r'},{t:'med',n:'Receta Enalapril',d:'01 dic 2025 · Dr. Ramírez',b:'b-g'}]},
+      {mo:'Octubre 2025',docs:[{t:'vac',n:'Vacuna antigripal',d:'15 oct 2025 · CEMIC',b:'b-g'}]}
+    ],
+    chat:{
+      intro:'Hola Mauricio 👋 Soy **Salu**, tu agente de salud personal. Tengo acceso a tus controles y análisis más recientes y puedo ayudarte a:\n• Entender tus valores de presión y colesterol\n• Responder dudas sobre tu medicación\n• Recordarte cargar información y turnos\n\n¿Qué querés consultar?',
+      r:[
+        {k:['presi','tension','hipert','145'],r:'Tu última medición registrada fue **145/92 mmHg** (feb 2026). El objetivo con Enalapril es <140/90. Estás en el límite superior. El Dr. Ramírez recomendó control mensual.',s:"Presión Feb '26"},
+        {k:['enalapril','medicacion','pastilla'],r:'Tomás **Enalapril 10mg** una vez por día, por la mañana con el desayuno. ⚠️ Recordá: tenés alergia documentada a la **Aspirina** — no debe usarse como antiagregante.',s:'Receta Enalapril'},
+        {k:['colest','ldl','hdl','lipid'],r:'En el análisis de diciembre: **LDL 142 mg/dL** (objetivo <100 para HTA), HDL 48 mg/dL. El cardiólogo evaluará si agregar estatina en el próximo control de abril.',s:"Colesterol Dic '25"},
+        {k:['vacuna'],r:'Tenés la antigripal aplicada en octubre 2025. Próxima: otoño 2026. ¿Querés que te recuerde cuándo aplicarla? También se recomienda vacuna antineumocócica a partir de los 65 años.',s:'Historial'},
+        {k:['cargar','subir','documento'],r:'Para cargar un nuevo documento tocá el **+** en esta pantalla. Podés subir análisis, recetas, informes de cardiólogo o fotos de resultados. Los analizo y te resumo lo más importante.',s:null},
+        {k:['app','usar','funciona'],r:'Salutia es tu historial médico personal. Podés cargar documentos, registrar medicación, compartir tu credencial médica con médicos, y consultarme cualquier duda sobre tu salud. ¿Qué querés hacer?',s:null},
+      ],
+      def:'Podés preguntarme sobre tu presión, colesterol, Enalapril, vacunas o cómo usar Salutia. ¡Estoy para ayudarte!'
+    }
+  }
+};
+
+const DICONS = {
+  lab:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>`,
+  con:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+  vac:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+  med:`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>`,
+};
+
+let cur = 'luka';
+let checkedPills = {};
+
+/* ── MED ICONS ── */
+const MED_ICONS={
+  sunrise:`<svg width='17' height='17' viewBox='0 0 24 24' fill='none' stroke='rgba(245,158,11,.85)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2v2'/><path d='m4.93 4.93 1.41 1.41'/><path d='M20 12h2'/><path d='M2 12h2'/><path d='m19.07 4.93-1.41 1.41'/><path d='M3 20h18'/><circle cx='12' cy='12' r='4'/></svg>`,
+  sun:`<svg width='17' height='17' viewBox='0 0 24 24' fill='none' stroke='rgba(0,180,216,.85)' stroke-width='2' stroke-linecap='round'><circle cx='12' cy='12' r='4'/><path d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41'/></svg>`,
+  moon:`<svg width='17' height='17' viewBox='0 0 24 24' fill='none' stroke='rgba(0,119,182,.85)' stroke-width='2' stroke-linecap='round'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/></svg>`,
+  night:`<svg width='17' height='17' viewBox='0 0 24 24' fill='none' stroke='rgba(139,92,246,.85)' stroke-width='2' stroke-linecap='round'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/><path d='M19 3l.5 1.5L21 5l-1.5.5L19 7l-.5-1.5L17 5l1.5-.5z'/></svg>`,
+};
+
+/* ── NAVIGATION ── */
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+const AVATARS = {
+  luka:`<svg width="100%" height="100%" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#1349C5"/><path d="M2 44 L2 28 Q3 23 10 21 L15 24.5 Q17 26 20 26 Q23 26 25 24.5 L30 21 Q37 23 38 28 L38 44Z" fill="#F5B200"/><rect x="3" y="25" width="5" height="14" rx="2.5" fill="rgba(255,255,255,0.22)"/><path d="M15 24.5 L18 26 L20 30.5 L17 24.5Z" fill="#EEF1FF"/><path d="M25 24.5 L22 26 L20 30.5 L23 24.5Z" fill="#EEF1FF"/><rect x="17" y="20" width="6" height="6" rx="2.5" fill="#FDDCB5"/><ellipse cx="9" cy="14" rx="1.8" ry="2.5" fill="#F0B888"/><ellipse cx="31" cy="14" rx="1.8" ry="2.5" fill="#F0B888"/><ellipse cx="20" cy="13" rx="9.5" ry="10" fill="#FDDCB5"/><path d="M11 13 Q10.5 5 20 4.5 Q29.5 5 30 13 Q28 7 20 7 Q12 7 11 13Z" fill="#282828"/><ellipse cx="20" cy="6" rx="9.5" ry="3" fill="#282828"/><path d="M28 7 Q31.5 9 31 13" stroke="#282828" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M11 12.5 Q10 8.5 13 6.5 L12.5 10Z" fill="#282828"/><rect x="14.5" y="10" width="5" height="1.4" rx="0.7" fill="#282828"/><rect x="20.5" y="10" width="5" height="1.4" rx="0.7" fill="#282828"/><circle cx="16" cy="14" r="1.9" fill="#282828"/><circle cx="24" cy="14" r="1.9" fill="#282828"/><circle cx="20" cy="17.5" r="0.9" fill="#DDA880"/><path d="M17.5 21 Q20 22.5 22.5 21" stroke="#C09070" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>`,
+  mauricio:`<svg width="100%" height="100%" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#0B35A8"/><path d="M2 44 L2 28 Q3 23 10 21 L15 24.5 Q17 26 20 26 Q23 26 25 24.5 L30 21 Q37 23 38 28 L38 44Z" fill="#1A2E72"/><rect x="3" y="25" width="5" height="14" rx="2.5" fill="rgba(255,255,255,0.12)"/><path d="M15 24.5 L18 26 L20 30.5 L17 24.5Z" fill="#EEF1FF"/><path d="M25 24.5 L22 26 L20 30.5 L23 24.5Z" fill="#EEF1FF"/><rect x="17" y="20" width="6" height="6" rx="2.5" fill="#FDDCB5"/><ellipse cx="9" cy="14" rx="1.8" ry="2.5" fill="#F0B888"/><ellipse cx="31" cy="14" rx="1.8" ry="2.5" fill="#F0B888"/><ellipse cx="20" cy="13" rx="9.5" ry="10" fill="#FDDCB5"/><path d="M11 13 Q10.5 5.5 20 5 Q29.5 5.5 30 13 Q28 7.5 20 7.5 Q12 7.5 11 13Z" fill="#8A8A8A"/><ellipse cx="20" cy="6.5" rx="9" ry="3" fill="#8A8A8A"/><path d="M28 7.5 Q31.5 9 31 13" stroke="#8A8A8A" stroke-width="3.5" stroke-linecap="round" fill="none"/><path d="M11 12 Q10 8 13 6 L12.5 10Z" fill="#8A8A8A"/><path d="M13 7 Q17 5 21 6" stroke="#C0C0C0" stroke-width="1.1" stroke-linecap="round" fill="none" opacity="0.7"/><rect x="14" y="10" width="5.5" height="1.5" rx="0.75" fill="#505050"/><rect x="20.5" y="10" width="5.5" height="1.5" rx="0.75" fill="#505050"/><circle cx="16" cy="14" r="1.9" fill="#282828"/><circle cx="24" cy="14" r="1.9" fill="#282828"/><circle cx="20" cy="17.5" r="0.9" fill="#DDA880"/><path d="M17.5 21 Q20 22.5 22.5 21" stroke="#C09070" stroke-width="1.1" fill="none" stroke-linecap="round"/></svg>`
+};
+
+function openProfile(id){
+  cur = id;
+  const p = P[id];
+  document.getElementById('ph-name').textContent = p.name;
+  document.getElementById('ph-sub').textContent = p.sub;
+  const av = document.getElementById('ph-av');
+  av.style.overflow = 'hidden'; av.style.padding = '0';
+  av.innerHTML = AVATARS[id] || p.initials;
+  const cfgAv = document.getElementById('cfg-av');
+  cfgAv.style.overflow = 'hidden'; cfgAv.style.padding = '0';
+  cfgAv.innerHTML = AVATARS[id] || p.initials;
+  document.getElementById('cfg-name').textContent = p.name;
+
+  // Cred
+  document.getElementById('c-name').textContent = p.cred.name;
+  document.getElementById('c-meta').textContent = p.cred.meta;
+  document.getElementById('c-grid').innerHTML = p.cred.grid.map(([l,v])=>
+    `<div><div class="ci-lbl">${l}</div><div class="ci-val">${v}</div></div>`).join('');
+
+  // Rows
+  const r = p.rows;
+  ['name','birth','dni','blood','os','dx','since','emerg'].forEach(k=>{
+    const el = document.getElementById('r-'+k);
+    if(el) el.textContent = r[k]||'—';
+  });
+
+  // Salud content
+  buildSalud(p);
+
+  // Sources
+  document.getElementById('src-row').innerHTML = p.sources.map(s=>
+    `<div class="src-chip"><div class="sdot" style="background:${s.c}"></div>${s.t}</div>`).join('');
+  document.getElementById('src-count').textContent = `${p.sources.length} fuentes activas`;
+
+  // Chat
+  document.getElementById('msgs').innerHTML = salumsg(p.chat.intro, null);
+
+  // Historial
+  buildHistorial(p);
+
+  tab('perfil');
+  go('s-profile');
+}
+
+/* ── BUILD MI SALUD ── */
+function buildSalud(p){
+  // Score arc: semicircle gauge
+  const r=52, cx=70, cy=75;
+  const pct = p.score/100;
+  // Arc endpoints: sweep clockwise from (cx-r, cy) = (18,75)
+  const angle = Math.PI * pct; // angle swept (0 to PI)
+  const ex = cx - r*Math.cos(angle);
+  const ey = cy - r*Math.sin(angle);
+  const color = p.scoreColor;
+
+  // largeArc is always 0 — we sweep max 180° for a semicircle gauge
+  const scoreSVG = `<svg width="140" height="90" viewBox="0 0 140 90">
+    <defs><linearGradient id="scoreGrad${cur}" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="${color}" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="${color}"/>
+    </linearGradient></defs>
+    <path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)}" fill="none" stroke="url(#scoreGrad${cur})" stroke-width="12" stroke-linecap="round"/>
+    <text x="${cx}" y="${cy-10}" text-anchor="middle" font-size="32" font-weight="800" fill="white" font-family="Inter">${p.score}</text>
+    <text x="${cx}" y="${cy+7}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.6)" font-family="Inter">de 100</text>
+  </svg>`;
+
+  const recsHTML = `
+    <div class="rec-section">
+      <div class="rec-header">
+        <div class="rec-ttl">Recomendaciones de Salu</div>
+        <div class="rec-badge">Este mes</div>
+      </div>
+      ${p.recomendaciones.map(r=>`
+        <div class="rec-card">
+          <div class="rec-ico">${r.icon}</div>
+          <div class="rec-body">
+            <div class="rec-name">${r.ttl}</div>
+            <div class="rec-sub">${r.sub}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  const insightsHTML = p.insights.map(ins=>`
+    <div class="insight-card">
+      <div class="insight-ico" style="background:${ins.bg}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${ins.color}" stroke-width="2.5" stroke-linecap="round">
+          ${ins.icon==='⬆'?'<path d="M12 19V5M5 12l7-7 7 7"/>'
+           :ins.icon==='⚠'?'<path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'
+           :'<polyline points="20 6 9 17 4 12"/>'}
+        </svg>
+      </div>
+      <div class="insight-body">
+        <div class="insight-ttl-txt">${ins.ttl}</div>
+        <div class="insight-sub-txt">${ins.sub}</div>
+      </div>
+      <div class="insight-badge" style="color:${ins.badgeColor};background:${ins.badgeBg}">${ins.badge}</div>
+    </div>`).join('');
+
+  // Alerts
+  const isLuka = cur==='luka';
+  const alertsHTML = isLuka ? `
+    <div class="alert alert-r"><div class="adot adot-r"></div><div class="atxt"><strong>Glucemia elevada</strong> — último registro 186 mg/dL. Revisar antes de dormir.</div></div>
+    <div class="alert alert-y"><div class="adot adot-y"></div><div class="atxt"><strong>HbA1c pendiente</strong> — último análisis hace 3 meses.</div></div>
+  ` : `
+    <div class="alert alert-y"><div class="adot adot-y"></div><div class="atxt"><strong>Presión en límite</strong> — 145/92 mmHg. Objetivo: &lt;140/90.</div></div>
+    <div class="alert alert-r"><div class="adot adot-r"></div><div class="atxt"><strong>LDL elevado</strong> — 142 mg/dL. Objetivo &lt;100 para HTA.</div></div>
+  `;
+
+  // Chart
+  const chartHTML = isLuka ? `
+    <div class="chart-box">
+      <div class="chart-ttl">Glucemia últimos 30 días</div>
+      <div class="chart-sub">mg/dL · Rango normal 70–130</div>
+      <svg width="100%" height="88" viewBox="0 0 320 88" preserveAspectRatio="none">
+        <defs><linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00C9E0" stop-opacity=".25"/><stop offset="100%" stop-color="#00C9E0" stop-opacity="0"/></linearGradient></defs>
+        <rect x="0" y="32" width="320" height="28" fill="rgba(34,197,94,0.07)" rx="2"/>
+        <polygon points="0,50 32,43 64,60 96,24 128,47 160,38 192,54 224,30 256,44 288,20 320,34 320,88 0,88" fill="url(#cg1)"/>
+        <polyline points="0,50 32,43 64,60 96,24 128,47 160,38 192,54 224,30 256,44 288,20 320,34" fill="none" stroke="#00C9E0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="2" y="86" font-size="9" fill="#9AA3AD" font-family="Inter">Abr 1</text>
+        <text x="278" y="86" font-size="9" fill="#9AA3AD" font-family="Inter">Abr 21</text>
+      </svg>
+    </div>` : `
+    <div class="chart-box">
+      <div class="chart-ttl">Presión arterial últimos 30 días</div>
+      <div class="chart-sub">mmHg sistólica · Objetivo &lt;140</div>
+      <svg width="100%" height="88" viewBox="0 0 320 88" preserveAspectRatio="none">
+        <defs><linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0077B6" stop-opacity=".25"/><stop offset="100%" stop-color="#0077B6" stop-opacity="0"/></linearGradient></defs>
+        <rect x="0" y="36" width="320" height="22" fill="rgba(34,197,94,0.07)" rx="2"/>
+        <polygon points="0,44 45,40 90,48 135,32 180,45 225,38 270,50 320,40 320,88 0,88" fill="url(#cg2)"/>
+        <polyline points="0,44 45,40 90,48 135,32 180,45 225,38 270,50 320,40" fill="none" stroke="#0077B6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="2" y="86" font-size="9" fill="#9AA3AD" font-family="Inter">Abr 1</text>
+        <text x="278" y="86" font-size="9" fill="#9AA3AD" font-family="Inter">Abr 21</text>
+      </svg>
+    </div>`;
+
+  const statsHTML = isLuka ? `
+    <div class="stats-row">
+      <div class="stat"><div class="sl">Glucemia</div><div class="sv">186 <span class="su">mg/dL</span></div><div class="st st-r">↑ Elevada</div></div>
+      <div class="stat"><div class="sl">HbA1c</div><div class="sv">7.2 <span class="su">%</span></div><div class="st st-y">⚠ Revisar</div></div>
+      <div class="stat"><div class="sl">Docs</div><div class="sv">12</div><div class="st st-g">✓ Al día</div></div>
+    </div>` : `
+    <div class="stats-row">
+      <div class="stat"><div class="sl">Presión</div><div class="sv">145<span class="su">/92</span></div><div class="st st-y">⚠ Límite</div></div>
+      <div class="stat"><div class="sl">LDL</div><div class="sv">142 <span class="su">mg/dL</span></div><div class="st st-r">↑ Alto</div></div>
+      <div class="stat"><div class="sl">Docs</div><div class="sv">8</div><div class="st st-g">✓ Al día</div></div>
+    </div>`;
+
+  // Medication timeline
+  const medHTML = `
+    <div class="med-box" style="margin-bottom:12px">
+      <div class="med-ttl">Plan de medicación</div>
+      <div class="med-timeline">
+        ${p.meds.map((slot,si)=>`
+          <div class="med-slot">
+            <div class="med-time-ico" style="background:${slot.iconBg}">${MED_ICONS[slot.icon]||''}</div>
+            <div class="med-slot-body">
+              <div class="med-slot-time">${slot.time}</div>
+              ${slot.pills.map((pill,pi)=>{
+                const key=`${cur}_${si}_${pi}`;
+                const done=checkedPills[key];
+                return `<div class="med-pill-row">
+                  <div class="pill-info"><div class="pill-name">${pill.name}</div><div class="pill-dose">${pill.dose}</div></div>
+                  <div class="pill-check ${done?'done':''}" onclick="togglePill('${key}')">
+                    ${done?`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:''}
+                  </div>
+                </div>`;
+              }).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  // Studies tracker
+  const doneCount = p.estudios.filter(e=>e.done).length;
+  const totalCount = p.estudios.length;
+  const estICON = {
+    lab:`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg>`,
+    con:`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    vac:`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+    eye:`<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  };
+  const estudiosHTML = `
+    <div class="estudios-section">
+      <div class="estudios-header">
+        <div class="estudios-ttl">Estudios recomendados</div>
+        <div class="estudios-progress">${doneCount}/${totalCount} realizados</div>
+      </div>
+      <div class="estudios-scroll">
+        ${p.estudios.map((e,i)=>`
+          <div class="estudio-card ${e.done?'done':'pending'}" id="estudio-${cur}-${i}" onclick="${e.done?`toggleEstudio('${cur}',${i})`:`openEstudioUpload('${e.name}')`}">
+            <div class="estudio-badge">
+              ${e.done
+                ?`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`
+                :`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/></svg>`
+              }
+            </div>
+            <div class="estudio-ico" style="color:${e.done?'#22C55E':'#9AA3AD'}">${estICON[e.icon]||estICON.lab}</div>
+            <div class="estudio-name">${e.name}</div>
+            <div class="estudio-date">${e.date}</div>
+            ${e.done&&e.nextDue?`
+            <div class="estudio-expand">
+              <div class="estudio-next-bar">
+                <div class="estudio-next-lbl">Próximo estudio</div>
+                <div class="estudio-next-val">${e.nextDue}</div>
+                <div class="estudio-next-days">en ${e.daysLeft} días</div>
+              </div>
+            </div>`:''}
+          </div>`).join('')}
+      </div>
+    </div>`;
+
+  document.getElementById('salud-content').innerHTML = `
+    <div class="salud-hero">
+      <div class="salud-hero-ttl">Score de salud</div>
+      <div class="score-wrap">
+        <div class="score-svg-wrap">${scoreSVG}</div>
+        <div class="score-label-wrap">
+          <div class="score-main">${p.score}</div>
+          <div class="score-sub">de 100 puntos</div>
+          <div class="score-status"><div class="score-dot" style="background:${color}"></div>${p.scoreLabel}</div>
+        </div>
+      </div>
+    </div>
+    ${estudiosHTML}
+    <div class="insights-section">
+      <div class="insights-ttl">Alertas activas</div>
+      ${insightsHTML}
+    </div>
+    <div class="alerts-section">${alertsHTML}</div>
+    ${recsHTML}
+    ${chartHTML}
+    ${statsHTML}
+    ${medHTML}
+  `;
+}
+
+function togglePill(key){
+  checkedPills[key] = !checkedPills[key];
+  buildSalud(P[cur]);
+}
+
+/* ── BUILD HISTORIAL ── */
+function buildHistorial(p){
+  document.getElementById('hlist').innerHTML = p.hist.map(mo=>`
+    <div class="mo-lbl">${mo.mo}</div>
+    ${mo.docs.map(d=>`
+      <div class="dcard" data-t="${d.t}" onclick="openDoc('${d.n.replace(/'/g,"\\'")}','${d.d}','${d.t}')">
+        <div class="dico d-${d.t}">${DICONS[d.t]||''}</div>
+        <div class="dinf"><div class="dname">${d.n}</div><div class="ddate">${d.d}</div></div>
+        <div class="dbadge ${d.b}"></div>
+      </div>`).join('')}`).join('');
+}
+
+/* ── TABS ── */
+function tab(name){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  // update all nav strokes
+  document.querySelectorAll('.nav-s').forEach(el=>el.setAttribute('stroke','#9AA3AD'));
+
+  const el = document.getElementById('tab-'+name);
+  if(el) el.classList.add('active');
+
+  const nav5 = ['perfil','salud','historial','config'];
+  const navEl = document.getElementById('n-'+name);
+  if(navEl){
+    navEl.classList.add('active');
+    navEl.querySelectorAll('.nav-s').forEach(el=>el.setAttribute('stroke','#FF5C1A'));
+  }
+
+  // Salu FAB active state
+  const fab = document.getElementById('salu-fab-btn');
+  const fabLbl = document.getElementById('salu-fab-lbl');
+  if(name==='salu'){
+    fab.classList.add('active-tab');
+    fabLbl.classList.add('active-tab');
+  } else {
+    fab.classList.remove('active-tab');
+    fabLbl.classList.remove('active-tab');
+  }
+  if(name==='salud') showSaludSection('hub');
+}
+
+/* ── CHAT ── */
+function salumsg(txt, src){
+  return `<div class="msg salu">
+    <div class="mav mav-s">
+      <svg width="14" height="14" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>
+    </div>
+    <div class="mbub-wrap">
+      <div class="mbub">${txt.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>
+      ${src?`<div class="msrc">Basado en <span class="msrc-pill">${src}</span></div>`:''}
+    </div>
+  </div>`;
+}
+
+function usermsg(txt){
+  const p=P[cur];
+  return `<div class="msg user">
+    <div class="mav mav-u" style="font-size:10px;font-weight:700;color:var(--navy)">${p.initials}</div>
+    <div class="mbub-wrap"><div class="mbub">${txt}</div></div>
+  </div>`;
+}
+
+function send(){
+  const inp = document.getElementById('cinp');
+  const txt = inp.value.trim(); if(!txt) return;
+  const msgs = document.getElementById('msgs');
+  msgs.innerHTML += usermsg(txt);
+  inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
+
+  const tid='T'+Date.now();
+  msgs.innerHTML+=`<div class="msg salu" id="${tid}"><div class="mav mav-s"><svg width="14" height="14" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+
+  setTimeout(()=>{
+    document.getElementById(tid)?.remove();
+    const low=txt.toLowerCase();
+    const p=P[cur];
+    let resp=p.chat.def, src=null;
+    for(const item of p.chat.r){if(item.k.some(k=>low.includes(k))){resp=item.r;src=item.s;break;}}
+    msgs.innerHTML+=salumsg(resp,src);
+    msgs.scrollTop=msgs.scrollHeight;
+  },1400);
+}
+
+/* ── FILTERS ── */
+function filter(el,type){
+  document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.dcard').forEach(d=>{d.style.display=(type==='all'||d.dataset.t===type)?'flex':'none';});
+}
+
+/* ── MODALS ── */
+function openModal(id){document.getElementById(id).classList.add('on')}
+function closeModal(id){document.getElementById(id).classList.remove('on')}
+
+function openShare(){
+  const p=P[cur].share;
+  document.getElementById('sh-name').textContent=p.name;
+  document.getElementById('sh-id').textContent=p.id;
+  document.getElementById('sh-grid').innerHTML=p.grid.map(([l,v])=>`<div><div class="sc-lbl">${l}</div><div class="sc-val">${v}</div></div>`).join('');
+  openModal('ov-share');
+}
+function copyLink(){const b=document.getElementById('copy-btn');b.textContent='✓ Copiado';setTimeout(()=>b.textContent='Copiar link',1800)}
+function shareIt(){if(navigator.share)navigator.share({title:'Mi credencial Salutia',text:P[cur].share.name});else closeModal('ov-share')}
+
+let currentDoc={};
+function openDoc(name,date,type){
+  currentDoc={name,date,type};
+  document.getElementById('doc-name').textContent=name;
+  document.getElementById('doc-date').textContent=date;
+  const ico=document.getElementById('doc-ico');
+  ico.innerHTML=DICONS[type]||'';
+  const bgMap={lab:'rgba(0,180,216,.1)',con:'rgba(255,148,77,.1)',vac:'rgba(34,197,94,.1)',med:'rgba(139,92,246,.1)'};
+  ico.style.background=bgMap[type]||'var(--off)';
+  openModal('ov-doc');
+}
+function consultarSalu(){
+  closeModal('ov-doc');
+  tab('salu');
+  setTimeout(()=>{
+    const msgs=document.getElementById('msgs');
+    msgs.innerHTML+=usermsg(`Quiero consultar algo sobre "${currentDoc.name}"`);
+    msgs.scrollTop=msgs.scrollHeight;
+    const tid='T'+Date.now();
+    msgs.innerHTML+=`<div class="msg salu" id="${tid}"><div class="mav mav-s"><svg width="14" height="14" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="rgba(255,255,255,.9)" stroke-width="1.75" fill="none"/><path d="M2.5 11L5 11L6.5 6.5L8.5 15.5L10 9.5L11 13L12.5 11L15 11L19.5 11" stroke="rgba(255,255,255,.9)" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+    setTimeout(()=>{
+      document.getElementById(tid)?.remove();
+      msgs.innerHTML+=salumsg(`Claro, tengo acceso a **${currentDoc.name}** (${currentDoc.date}). ¿Qué querés saber sobre este documento? Puedo explicarte los valores, buscar alertas o compararlo con resultados anteriores.`,currentDoc.name.split(' ').slice(0,3).join(' '));
+      msgs.scrollTop=msgs.scrollHeight;
+    },1300);
+  },300);
+}
+function openRegister(){openModal('ov-reg')}
+
+/* ── VACUNA FORM ── */
+let vacPhotoUrl = null;
+
+function openVacForm(){
+  document.getElementById('vf-name').value = '';
+  document.getElementById('vf-dose').value = '1° dosis';
+  document.getElementById('vf-date').value = new Date().toISOString().split('T')[0];
+  document.getElementById('vf-place').value = '';
+  document.getElementById('vf-photo').value = '';
+  vacPhotoUrl = null;
+  document.getElementById('vac-photo-preview').style.display = 'none';
+  document.getElementById('vac-photo-placeholder').style.display = 'flex';
+  openModal('ov-vac');
+}
+
+function previewVacPhoto(input){
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      vacPhotoUrl = e.target.result;
+      document.getElementById('vac-photo-img').src = vacPhotoUrl;
+      document.getElementById('vac-photo-preview').style.display = 'flex';
+      document.getElementById('vac-photo-placeholder').style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function viewVacItem(idx){
+  const v = VACUNAS_DATA[cur].aplicadas[idx];
+  if(!v) return;
+  viewVacPhoto(v.foto, v.nombre, v.dosis);
+}
+
+function viewVacPhoto(fotoData, vacName, dosis){
+  document.getElementById('pv-title').textContent = vacName;
+  document.getElementById('pv-sub').textContent = dosis || '';
+  const img = document.getElementById('pv-img');
+  const mock = document.getElementById('pv-mock');
+  if(fotoData === true){
+    mock.style.display = '';
+    img.style.display = 'none';
+    document.getElementById('pv-mock-name').textContent = vacName;
+  } else {
+    img.src = fotoData;
+    img.style.display = '';
+    mock.style.display = 'none';
+  }
+  openModal('ov-photo-viewer');
+}
+
+function saveVac(){
+  const name = document.getElementById('vf-name').value;
+  if(!name){alert('Seleccioná una vacuna');return;}
+  const dose = document.getElementById('vf-dose').value;
+  const dateVal = document.getElementById('vf-date').value;
+  const place = document.getElementById('vf-place').value;
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  let dateStr = dateVal;
+  if(dateVal){
+    const d = new Date(dateVal + 'T12:00:00');
+    dateStr = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  }
+  const newVac = {nombre:name, dosis:dose, fecha:dateStr};
+  if(place) newVac.lugar = place;
+  if(vacPhotoUrl) newVac.foto = vacPhotoUrl;
+  VACUNAS_DATA[cur].aplicadas.unshift(newVac);
+  vacPhotoUrl = null;
+  closeModal('ov-vac');
+  showSaludSection('vac');
+  tab('salud');
+}
+
+/* ── SALUD DATA ── */
+const MEDS_DATA = {
+  luka: {
+    adherencia: 87,
+    racha: 6,
+    blister: [1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,null,null,null],
+    rutina: [
+      {ico:'#0077B6',nombre:'Insulina Glargina',dosis:'20 UI',tiempos:['22:00'],stock:14,max:30},
+      {ico:'#00B4D8',nombre:'Metformina 500mg',dosis:'500 mg',tiempos:['08:00','20:00'],stock:22,max:60},
+      {ico:'#023E8A',nombre:'Aspirina 100mg',dosis:'100 mg',tiempos:['08:00'],stock:8,max:30},
+    ]
+  },
+  mauricio: {
+    adherencia: 79,
+    racha: 3,
+    blister: [1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,null,null,null],
+    rutina: [
+      {ico:'#0077B6',nombre:'Enalapril 10mg',dosis:'10 mg',tiempos:['08:00'],stock:18,max:30},
+      {ico:'#00B4D8',nombre:'Amlodipina 5mg',dosis:'5 mg',tiempos:['20:00'],stock:5,max:30},
+      {ico:'#023E8A',nombre:'Atorvastatina 20mg',dosis:'20 mg',tiempos:['22:00'],stock:25,max:30},
+    ]
+  }
+};
+
+const VACUNAS_DATA = {
+  luka: {
+    proximas: [
+      {nombre:'Influenza',dosis:'Refuerzo anual',fecha:'15 may 2026'},
+      {nombre:'COVID-19 Bivalente',dosis:'Refuerzo',fecha:'Jun 2026'},
+    ],
+    aplicadas: [
+      {nombre:'Influenza',dosis:'Refuerzo 2025',fecha:'12 mar 2025',lugar:'CEMIC',foto:true},
+      {nombre:'Hepatitis B',dosis:'3° dosis',fecha:'04 ene 2025',lugar:'Vacunatorio Central',foto:true},
+      {nombre:'COVID-19',dosis:'Bivalente',fecha:'Oct 2024',lugar:'Hospital Italiano'},
+      {nombre:'dTpa',dosis:'Refuerzo adultos',fecha:'Jun 2023',lugar:'Centro Médico'},
+    ],
+    pendientes: [
+      {nombre:'Fiebre Amarilla',motivo:'Viaje recomendado'},
+      {nombre:'Meningococo ACWY',motivo:'Recomendada 20-30 años'},
+    ]
+  },
+  mauricio: {
+    proximas: [
+      {nombre:'Influenza',dosis:'Refuerzo anual',fecha:'Abr 2026'},
+      {nombre:'Herpes Zóster',dosis:'1° dosis',fecha:'Jun 2026'},
+    ],
+    aplicadas: [
+      {nombre:'Influenza',dosis:'Refuerzo 2025',fecha:'20 abr 2025',lugar:'OSDE',foto:true},
+      {nombre:'COVID-19',dosis:'Bivalente',fecha:'Nov 2024',lugar:'Vacunatorio Municipal'},
+      {nombre:'Neumo 23',dosis:'Dosis única',fecha:'Mar 2024',lugar:'Centro Médico'},
+    ],
+    pendientes: [
+      {nombre:'Herpes Zóster (Shingrix)',motivo:'Recomendada mayores de 50'},
+      {nombre:'dTpa',dosis:'Refuerzo 10 años',motivo:'Vencida en 2023'},
+    ]
+  }
+};
+
+/* ── MI SALUD HUB NAVIGATION ── */
+function showSaludSection(section){
+  ['salud-hub','salud-sub-score','salud-sub-meds','salud-sub-vac'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  const p = P[cur];
+  if(section === 'hub'){
+    renderHub(p);
+    document.getElementById('salud-hub').style.display = '';
+  } else if(section === 'score'){
+    document.getElementById('salud-sub-score').style.display = '';
+    buildSalud(p);
+  } else if(section === 'meds'){
+    document.getElementById('salud-sub-meds').style.display = '';
+    renderMeds('estadisticas');
+  } else if(section === 'vac'){
+    document.getElementById('salud-sub-vac').style.display = '';
+    renderVacunas();
+  }
+}
+
+function renderHub(p){
+  const meds = MEDS_DATA[cur];
+  const vacs = VACUNAS_DATA[cur];
+  const adh = meds ? meds.adherencia : 0;
+  const adhColor = adh >= 85 ? '#22C55E' : adh >= 65 ? '#F59E0B' : '#EF4444';
+  const proxVac = vacs.proximas[0];
+  document.getElementById('salud-hub').innerHTML = `
+    <div class="salud-hero" style="padding-bottom:20px">
+      <div class="salud-hero-ttl">Mi Salud</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.7);margin-top:4px">Resumen de ${p.name}</div>
+    </div>
+    <div class="salud-hub-wrap">
+      <div class="shc" onclick="showSaludSection('score')">
+        <div class="shc-ico" style="background:linear-gradient(135deg,#00C9E0,#0077B6)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="shc-body">
+          <div class="shc-ttl">Score de salud</div>
+          <div class="shc-sub">${p.score} / 100 · ${p.scoreLabel}</div>
+        </div>
+        <div class="shc-arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="shc" onclick="showSaludSection('meds')">
+        <div class="shc-ico" style="background:linear-gradient(135deg,#8B5CF6,#6D28D9)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M10.5 20H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H20a2 2 0 0 1 2 2v3"/><circle cx="18" cy="18" r="3"/><path d="M18 15v3l1.5 1.5"/></svg>
+        </div>
+        <div class="shc-body">
+          <div class="shc-ttl">Plan de medicación</div>
+          <div class="shc-sub">Adherencia: <span style="color:${adhColor};font-weight:700">${adh}%</span> · ${meds ? meds.rutina.length : 0} medicamentos</div>
+        </div>
+        ${adh < 80 ? '<div class="shc-badge">!</div>' : ''}
+        <div class="shc-arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+      <div class="shc" onclick="showSaludSection('vac')">
+        <div class="shc-ico" style="background:linear-gradient(135deg,#22C55E,#16A34A)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <div class="shc-body">
+          <div class="shc-ttl">Vacunas</div>
+          <div class="shc-sub">Próxima: ${proxVac ? proxVac.nombre + ' · ' + proxVac.fecha : 'Al día'}</div>
+        </div>
+        ${vacs.pendientes.length > 0 ? `<div class="shc-badge">${vacs.pendientes.length}</div>` : ''}
+        <div class="shc-arr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA3AD" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+      </div>
+    </div>
+  `;
+}
+
+/* ── MEDICACIÓN INTERACTIVA ── */
+const medsChecked = {};
+
+function toggleMedPill(key){
+  medsChecked[key] = !medsChecked[key];
+  renderMeds('rutina');
+}
+
+function switchMedTab(t){
+  document.querySelectorAll('.med-tab-btn').forEach(b=>b.classList.toggle('on', b.dataset.t===t));
+  renderMeds(t);
+}
+
+function renderMeds(subtab){
+  subtab = subtab || 'estadisticas';
+  const meds = MEDS_DATA[cur];
+  if(!meds){document.getElementById('meds-content').innerHTML='<div style="padding:24px;text-align:center;color:#9AA3AD">Sin datos</div>';return;}
+
+  const tabRow = `<div class="med-tab-row">
+    <button class="med-tab-btn${subtab==='estadisticas'?' on':''}" data-t="estadisticas" onclick="switchMedTab('estadisticas')">Estadísticas</button>
+    <button class="med-tab-btn${subtab==='rutina'?' on':''}" data-t="rutina" onclick="switchMedTab('rutina')">Rutina diaria</button>
+  </div>`;
+
+  let body = '';
+
+  /* ── ESTADÍSTICAS ── */
+  if(subtab === 'estadisticas'){
+    const adh = meds.adherencia;
+    const adhColor = adh >= 85 ? '#22C55E' : adh >= 65 ? '#F59E0B' : '#EF4444';
+    const adhLabel = adh >= 85 ? 'Excelente' : adh >= 65 ? 'Regular' : 'Necesita mejora';
+    const r=28, cx=40, cy=40, circ=2*Math.PI*r;
+    const dash = (adh/100)*circ;
+
+    const bpCells = meds.blister.map((v,i)=>{
+      const day = i+1;
+      if(v===null) return `<div class="bp bp-fut"><span style="font-size:8px;color:var(--t3)">${day}</span></div>`;
+      if(v===1) return `<div class="bp bp-ok"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>`;
+      return `<div class="bp bp-miss"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="3.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg></div>`;
+    }).join('');
+
+    const stockRows = meds.rutina.map(m=>{
+      const pct = Math.round((m.stock/m.max)*100);
+      const warn = pct < 30;
+      const daysLeft = Math.floor(m.stock / m.tiempos.length);
+      return `<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.04)">
+        <div style="width:36px;height:36px;border-radius:11px;background:${m.ico}18;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${m.ico}" stroke-width="2.2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${m.nombre}</div>
+          <div style="height:6px;background:#EEF2F7;border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:${warn?'#EF4444':m.ico};border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;min-width:44px">
+          <div style="font-size:14px;font-weight:800;color:${warn?'#EF4444':'var(--t1)'}">${m.stock}<span style="font-size:10px;font-weight:500;color:var(--t3)">u</span></div>
+          <div style="font-size:10px;color:${warn?'#EF4444':'var(--t3)'};font-weight:${warn?700:400}">${warn?'Stock bajo':daysLeft+' días'}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    body = `
+      <div class="adh-box">
+        <div class="adh-row">
+          <div class="adh-ring">
+            <svg viewBox="0 0 80 80" width="72" height="72" style="transform:rotate(-90deg)">
+              <circle cx="${cx}" cy="${cy}" r="${r}" stroke="#EEF2F7" stroke-width="6" fill="none"/>
+              <circle cx="${cx}" cy="${cy}" r="${r}" stroke="${adhColor}" stroke-width="6" fill="none"
+                stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}" stroke-linecap="round"/>
+            </svg>
+            <div class="adh-pct" style="color:${adhColor}">${adh}%</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:16px;font-weight:800;color:var(--t1);margin-bottom:2px">${adhLabel}</div>
+            <div style="font-size:12px;color:var(--t2);margin-bottom:10px">Adherencia este mes</div>
+            <div style="display:inline-flex;align-items:center;gap:5px;background:${adhColor}18;border-radius:20px;padding:5px 11px">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="${adhColor}" stroke-width="2.5" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              <span style="font-size:11px;font-weight:700;color:${adhColor}">${meds.racha} días seguidos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#fff;margin:10px 16px 0;border-radius:18px;padding:16px 18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div style="font-size:13px;font-weight:700;color:var(--t1)">Abril 2026</div>
+          <div style="display:flex;gap:10px;font-size:10px;color:var(--t2)">
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#22C55E;display:inline-block"></span>Tomado</span>
+            <span style="display:flex;align-items:center;gap:3px"><span style="width:8px;height:8px;border-radius:2px;background:#EF4444;display:inline-block"></span>Omitido</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">${bpCells}</div>
+      </div>
+
+      <div style="background:#fff;margin:10px 16px 24px;border-radius:18px;padding:16px 18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)">
+        <div style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px">Stock actual</div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:4px">Unidades restantes · días estimados</div>
+        ${stockRows}
+        <div style="padding-top:4px"></div>
+      </div>`;
+
+  /* ── RUTINA DIARIA ── */
+  } else {
+    const BUCKET_ORDER = ['Mañana','Tarde','Noche'];
+    const BUCKET_RANGE = {'Mañana':[6,13],'Tarde':[13,20],'Noche':[20,24]};
+    const BUCKET_ICON = {
+      'Mañana':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+      'Tarde':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF5C1A" stroke-width="2.2" stroke-linecap="round"><path d="M17 18a5 5 0 0 0-10 0"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/><line x1="1" y1="18" x2="3" y2="18"/><line x1="21" y1="18" x2="23" y2="18"/><line x1="18.36" y1="11.64" x2="19.78" y2="10.22"/></svg>',
+      'Noche':'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+    };
+    const BUCKET_COLOR = {'Mañana':'#F59E0B','Tarde':'#FF5C1A','Noche':'#8B5CF6'};
+    const BUCKET_BG = {'Mañana':'#FEFCE8','Tarde':'#FFF3EE','Noche':'#F5F0FF'};
+
+    const buckets = {'Mañana':[],'Tarde':[],'Noche':[]};
+    meds.rutina.forEach(m => {
+      m.tiempos.forEach(t => {
+        const h = parseInt(t.split(':')[0]);
+        const b = h>=6&&h<13?'Mañana':h>=13&&h<20?'Tarde':'Noche';
+        buckets[b].push({...m, tiempo:t});
+      });
+    });
+
+    const allPills = Object.values(buckets).flat();
+    const totalToday = allPills.length;
+    const takenToday = allPills.filter(m => !!medsChecked[cur+'_'+m.nombre+'_'+m.tiempo]).length;
+    const pct = totalToday > 0 ? Math.round((takenToday/totalToday)*100) : 0;
+    const pctColor = pct===100?'#22C55E':pct>=50?'#F59E0B':'#EF4444';
+    const pctMsg = pct===100?'Todo tomado · buen trabajo':'Pendientes hoy';
+
+    const headerCard = `
+      <div style="margin:12px 16px 0;background:#fff;border-radius:18px;padding:16px 18px;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <div style="font-size:15px;font-weight:800;color:var(--t1)">${takenToday} de ${totalToday} tomados hoy</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:2px">${pctMsg}</div>
+          </div>
+          <div style="font-size:24px;font-weight:800;color:${pctColor};letter-spacing:-1px">${pct}%</div>
+        </div>
+        <div style="height:8px;background:#EEF2F7;border-radius:5px;overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${pctColor};border-radius:5px;transition:width .4s ease"></div>
+        </div>
+      </div>`;
+
+    const slotsHTML = BUCKET_ORDER.filter(b => buckets[b].length > 0).map(b => {
+      const pillRows = buckets[b].map(m => {
+        const key = cur+'_'+m.nombre+'_'+m.tiempo;
+        const done = !!medsChecked[key];
+        const warn = m.stock < (m.max*0.3);
+        return `<div class="med-pill-row" style="${done?'opacity:.55':''}">
+          <div class="pill-info">
+            <div class="pill-name">${m.nombre}</div>
+            <div class="pill-dose">${m.dosis} · ${m.tiempo}${warn?` · <span style="color:#EF4444;font-weight:700">Stock bajo</span>`:''}</div>
+          </div>
+          <div class="pill-check${done?' done':''}" onclick="toggleMedPill('${key}')">
+            ${done?`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>`:''}
+          </div>
+        </div>`;
+      }).join('');
+
+      return `<div style="margin:10px 16px 0">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px">
+          <div style="width:26px;height:26px;border-radius:8px;background:${BUCKET_BG[b]};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            ${BUCKET_ICON[b]}
+          </div>
+          <span style="font-size:11px;font-weight:700;color:${BUCKET_COLOR[b]};text-transform:uppercase;letter-spacing:.7px">${b}</span>
+        </div>
+        <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 1px 8px rgba(0,0,0,.05),0 0 0 1px rgba(0,0,0,.04)">
+          ${pillRows}
+        </div>
+      </div>`;
+    }).join('');
+
+    body = headerCard + slotsHTML + `
+      <div style="margin:10px 16px 24px">
+        <button onclick="openModal('ov-reg')" style="width:100%;padding:14px;background:#fff;border-radius:16px;border:1.5px dashed #DDE3EC;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:#FF5C1A;display:flex;align-items:center;justify-content:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5C1A" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Agregar medicamento
+        </button>
+      </div>`;
+  }
+
+  document.getElementById('meds-content').innerHTML = tabRow + body;
+}
+
+/* ── RENDER VACUNAS ── */
+function renderVacunas(){
+  const vacs = VACUNAS_DATA[cur];
+  if(!vacs){document.getElementById('vac-content').innerHTML='<div style="padding:24px;text-align:center;color:#9AA3AD">Sin datos</div>';return;}
+
+  const nextCards = vacs.proximas.map(v=>`
+    <div class="next-dose-card">
+      <div class="nd-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+      <div class="nd-body">
+        <div class="nd-name">${v.nombre}</div>
+        <div class="nd-dose">${v.dosis}</div>
+        <div class="nd-date">${v.fecha}</div>
+      </div>
+    </div>`).join('');
+
+  const appliedItems = vacs.aplicadas.map((v,i)=>`
+    <div class="vac-item vi-ok">
+      <div class="vac-badge vb-ok"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:700;color:var(--t1)">${v.nombre}</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">${v.dosis} · ${v.fecha}</div>
+        ${v.lugar?`<div style="font-size:11px;color:var(--t2)">${v.lugar}</div>`:''}
+      </div>
+      ${v.foto?`<button onclick="event.stopPropagation();viewVacItem(${i})" style="display:flex;align-items:center;gap:5px;padding:6px 10px;background:#F0F4FF;border:1px solid #D0DEFF;border-radius:8px;color:#1349C5;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:'Inter',sans-serif"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1349C5" stroke-width="2.2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Ver</button>`:''}
+    </div>`).join('');
+
+  const pendItems = vacs.pendientes.map(v=>`
+    <div class="vac-item vi-pend">
+      <div class="vac-badge vb-pend"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M12 8v4m0 4h.01"/></svg></div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:700;color:var(--t1)">${v.nombre}</div>
+        <div style="font-size:11px;color:var(--t2);margin-top:2px">${v.motivo}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('vac-content').innerHTML = `
+    <div style="padding:0 18px 24px">
+      ${nextCards.length ? `<div class="vac-section"><div class="vac-section-ttl" style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:10px">Próximas dosis</div>${nextCards}</div>` : ''}
+      <div class="vac-section" style="margin-top:16px">
+        <div class="vac-section-ttl" style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:10px">Historial aplicado</div>
+        ${appliedItems}
+      </div>
+      ${pendItems.length ? `<div class="vac-section" style="margin-top:16px"><div class="vac-section-ttl" style="font-size:13px;font-weight:700;color:var(--t1);margin-bottom:10px">Pendientes recomendadas</div>${pendItems}</div>` : ''}
+      <button onclick="openVacForm()" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 18px;background:#F0F4FF;border:1.5px solid #D0DEFF;border-radius:14px;color:#1349C5;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-top:4px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1349C5" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Agregar vacuna aplicada
+      </button>
+    </div>
+  `;
+}
+
+function selectPlan(card){
+  document.querySelectorAll('.plan-card').forEach(c=>{
+    c.classList.remove('active');
+    c.classList.add('inactive');
+    const radio = c.querySelector('.plan-radio');
+    if(radio) radio.innerHTML = '';
+  });
+  card.classList.remove('inactive');
+  card.classList.add('active');
+  const radio = card.querySelector('.plan-radio');
+  if(radio) radio.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>';
+}
+
+function toggleEstudio(profileId, idx){
+  const card = document.getElementById(`estudio-${profileId}-${idx}`);
+  if(!card) return;
+  card.classList.toggle('expanded');
+}
+
+function openEstudioUpload(nombre){
+  document.getElementById('estudio-upload-name').textContent = nombre;
+  openModal('ov-estudio');
+}
+</script>
+</body>
+</html>
