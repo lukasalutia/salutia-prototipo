@@ -644,7 +644,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
 .day-chip{padding:7px 12px;border-radius:10px;background:#F5F7FA;border:1.5px solid transparent;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;transition:all .2s}
 .day-chip.on{border-color:var(--cobalt);background:rgba(19,73,197,.08);color:var(--cobalt)}
 .onb-success{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:24px 16px 8px}
-.onb-success-ico{font-size:44px}
+.onb-success-ico{display:flex;justify-content:center;padding-top:8px}
 .onb-success-h{font-size:18px;font-weight:800;color:var(--t1);letter-spacing:-.3px}
 .onb-success-sub{font-size:14px;color:var(--t2);line-height:1.5}
 .onb-submit-btn{width:100%;padding:15px;border-radius:14px;background:var(--cobalt);color:#fff;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:'Inter',sans-serif;margin-top:4px}
@@ -792,11 +792,11 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         <div style="font-size:11px;font-weight:700;color:#1349C5" id="he-prog-pct">0/5</div>
       </div>
       <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px" class="he-tasks">
-        <div class="he-task" id="htask-doc" onclick="openOnbModal('m-doc')">📄 Documentos</div>
-        <div class="he-task" id="htask-med" onclick="openOnbModal('m-med')">💊 Medicación</div>
-        <div class="he-task" id="htask-vac" onclick="openOnbModal('m-vac')">💉 Vacunas</div>
-        <div class="he-task" id="htask-reminder" onclick="openOnbModal('m-reminder')">🔔 Recordatorio</div>
-        <div class="he-task" id="htask-familiar" onclick="openOnbModal('m-familiar')">👨‍👩 Familiar</div>
+        <div class="he-task" id="htask-doc" onclick="openOnbModal('m-doc')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Documentos</div>
+        <div class="he-task" id="htask-med" onclick="openOnbModal('m-med')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> Medicación</div>
+        <div class="he-task" id="htask-vac" onclick="openOnbModal('m-vac')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> Vacunas</div>
+        <div class="he-task" id="htask-reminder" onclick="openOnbModal('m-reminder')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Recordatorio</div>
+        <div class="he-task" id="htask-familiar" onclick="openOnbModal('m-familiar')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Familiar</div>
       </div>
     </div>
     <!-- Tab content (igual estructura que s-profile) -->
@@ -957,24 +957,31 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
           </div>
           <!-- CTAs de carga rápida -->
           <div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px">
-            <button onclick="openOnbModal('m-doc')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#1349C5;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:10px;text-align:left">
-              <span style="font-size:20px">📄</span><div><div>Cargar análisis o documento</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">OCR automático con Salu</div></div>
+            <button onclick="openOnbModal('m-doc')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#0077B6;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;text-align:left">
+              <div style="width:38px;height:38px;border-radius:11px;background:rgba(0,119,182,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+              <div><div>Cargar análisis o documento</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">OCR automático con Salu</div></div>
             </button>
-            <button onclick="openOnbModal('m-med')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#8B5CF6;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:10px;text-align:left">
-              <span style="font-size:20px">💊</span><div><div>Agregar medicación</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">Fotografiá el envase</div></div>
+            <button onclick="openOnbModal('m-med')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#8B5CF6;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;text-align:left">
+              <div style="width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+              <div><div>Agregar medicación</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">Fotografiá el envase o receta</div></div>
             </button>
-            <button onclick="openOnbModal('m-vac')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#22C55E;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:10px;text-align:left">
-              <span style="font-size:20px">💉</span><div><div>Cargar vacunas</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">Leemos tu carnet automáticamente</div></div>
+            <button onclick="openOnbModal('m-vac')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#22C55E;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;text-align:left">
+              <div style="width:38px;height:38px;border-radius:11px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
+              <div><div>Cargar vacunas</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">Leemos tu carnet automáticamente</div></div>
+            </button>
+            <button onclick="openOnbModal('m-reminder')" style="width:100%;padding:12px 16px;border-radius:13px;background:#fff;border:1.5px solid #DDE3EC;font-size:13px;font-weight:700;color:#FF944D;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:12px;text-align:left">
+              <div style="width:38px;height:38px;border-radius:11px;background:rgba(255,148,77,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+              <div><div>Crear recordatorio</div><div style="font-size:11px;font-weight:500;color:#9AA3AD">Turnos, medicación, controles</div></div>
             </button>
           </div>
         </div>
         <div class="chat-bar">
-          <input class="chat-inp" placeholder="Preguntale a Salu…" onkeydown="if(event.key==='Enter'&&this.value.trim()){heChat(this.value);this.value=''}">
-          <button class="send-btn" onclick="var i=this.previousElementSibling;if(i.value.trim()){heChat(i.value);i.value=''}">
+          <input class="chat-inp" id="he-cinp" placeholder="Preguntale a Salu…" onkeydown="if(event.key==='Enter'&&this.value.trim()){heChat(this.value);this.value=''}">
+          <button class="send-btn" onclick="var i=document.getElementById('he-cinp');if(i.value.trim()){heChat(i.value);i.value=''}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
           </button>
         </div>
-        <button class="salu-plus" onclick="openOnbModal('m-doc')">
+        <button class="salu-plus" onclick="openModal('ov-reg-onb')">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
         </button>
       </div>
@@ -1124,7 +1131,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         <!-- Paso 4 -->
         <div class="onb-step" id="m-doc-step-4">
           <div class="onb-success">
-            <div class="onb-success-ico">📄✅</div>
+            <div class="onb-success-ico"><div style="width:64px;height:64px;border-radius:20px;background:rgba(0,119,182,.1);display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="1.75" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg></div></div>
             <div class="onb-success-h">¡Documento guardado!</div>
             <div class="onb-success-sub">Salu lo analizará y te avisará si hay valores para prestar atención.</div>
           </div>
@@ -1164,7 +1171,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         </div>
         <div class="onb-step" id="m-med-step-4">
           <div class="onb-success">
-            <div class="onb-success-ico">💊✅</div>
+            <div class="onb-success-ico"><div style="width:64px;height:64px;border-radius:20px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="1.75" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div></div>
             <div class="onb-success-h">¡Medicación guardada!</div>
             <div class="onb-success-sub">Te recordaré tomarla todos los días a las 08:00.</div>
           </div>
@@ -1204,7 +1211,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         </div>
         <div class="onb-step" id="m-vac-step-4">
           <div class="onb-success">
-            <div class="onb-success-ico">💉✅</div>
+            <div class="onb-success-ico"><div style="width:64px;height:64px;border-radius:20px;background:rgba(34,197,94,.1);display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="1.75" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div></div>
             <div class="onb-success-h">¡Vacuna registrada!</div>
             <div class="onb-success-sub">Tu calendario de vacunación está actualizado.</div>
           </div>
@@ -1255,7 +1262,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         </div>
         <div class="onb-step" id="m-reminder-step-3">
           <div class="onb-success">
-            <div class="onb-success-ico">🔔✅</div>
+            <div class="onb-success-ico"><div style="width:64px;height:64px;border-radius:20px;background:rgba(255,148,77,.1);display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="1.75" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div></div>
             <div class="onb-success-h">¡Recordatorio activado!</div>
             <div class="onb-success-sub">Te vamos a avisar todos los días a las 08:00 para tomar el Enalapril.</div>
           </div>
@@ -1293,7 +1300,7 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
         </div>
         <div class="onb-step" id="m-familiar-step-2">
           <div class="onb-success">
-            <div class="onb-success-ico">👨‍👩✅</div>
+            <div class="onb-success-ico"><div style="width:64px;height:64px;border-radius:20px;background:rgba(19,73,197,.1);display:flex;align-items:center;justify-content:center"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1349C5" stroke-width="1.75" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div></div>
             <div class="onb-success-h">¡Familiar agregado!</div>
             <div class="onb-success-sub">Luka Levandovsky ya está en tu grupo familiar.</div>
           </div>
@@ -1305,6 +1312,48 @@ select.form-inp{-webkit-appearance:none;cursor:pointer}
             </div>
           </div>
           <button class="onb-submit-btn" onclick="completeOnbTask('familiar')">Continuar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MENÚ + ONBOARDING (igual a ov-reg del producto) ── -->
+    <div class="overlay" id="ov-reg-onb" onclick="closeModal('ov-reg-onb')">
+      <div class="sheet" onclick="event.stopPropagation()">
+        <button class="sheet-close" onclick="closeModal('ov-reg-onb')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <div class="sheet-handle"></div>
+        <div class="sheet-ttl">¿Qué querés registrar?</div>
+        <div class="sheet-sub">Seleccioná el tipo de información</div>
+        <div class="reg-grid">
+          <div class="reg-card reg-card-blue" onclick="closeModal('ov-reg-onb');openOnbModal('m-doc')">
+            <div class="reg-ico reg-ico-b"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+            <div class="reg-name">Documento</div>
+            <div class="reg-sub">Estudios, análisis, informes y resultados clínicos</div>
+            <div class="reg-arr reg-arr-b"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0077B6" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </div>
+          <div class="reg-card reg-card-orange" onclick="closeModal('ov-reg-onb');openOnbModal('m-reminder')">
+            <div class="reg-ico reg-ico-o"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+            <div class="reg-name">Recordatorio</div>
+            <div class="reg-sub">Turnos, medicación, controles y seguimientos</div>
+            <div class="reg-arr reg-arr-o"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF944D" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>
+          </div>
+        </div>
+        <div class="reg-card-wide reg-card-purple" onclick="closeModal('ov-reg-onb');openOnbModal('m-med')" style="margin-bottom:8px">
+          <div class="reg-ico reg-ico-p" style="margin-bottom:0;flex-shrink:0"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+          <div style="flex:1">
+            <div class="reg-name">Plan de medicación</div>
+            <div class="reg-sub" style="margin-top:2px">Registrá tu medicación activa y configurá recordatorios de toma diaria</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </div>
+        <div class="reg-card-wide" style="margin-bottom:8px;background:rgba(34,197,94,.06);border:1.5px solid rgba(34,197,94,.18)" onclick="closeModal('ov-reg-onb');openOnbModal('m-vac')">
+          <div class="reg-ico" style="margin-bottom:0;flex-shrink:0;background:rgba(34,197,94,.12)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/><line x1="12" y1="12" x2="12" y2="18"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+          <div style="flex:1">
+            <div class="reg-name">Agregar vacuna</div>
+            <div class="reg-sub" style="margin-top:2px">Registrá una vacuna aplicada y mantené tu libreta al día</div>
+          </div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
         </div>
       </div>
     </div>
@@ -3068,7 +3117,11 @@ function heTab(name){
   }
 
   const fab=document.getElementById('he-salu-fab');
-  if(fab) fab.style.background=name==='salu'?'#1349C5':'#FF5C1A';
+  if(fab){
+    fab.style.background='#FF5C1A';
+    fab.style.outline=name==='salu'?'3px solid rgba(255,255,255,.65)':'none';
+    fab.style.outlineOffset='2px';
+  }
 
   if(name==='salud') heShowSalud('hub');
 }
